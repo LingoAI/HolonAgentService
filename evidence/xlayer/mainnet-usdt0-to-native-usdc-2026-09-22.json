@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "network": "xlayer-mainnet",
+  "chainId": 196,
+  "readOnly": false,
+  "checkedAt": "2026-09-22T05:45:04.084Z",
+  "buyer": "0x0321ef63b7C10d1E33a7eB1a7b5f431121211eAb",
+  "route": {
+    "protocol": "Uniswap V3",
+    "pool": "0xEEeB3C1F61DC3070C675c2670a3f2188A060012D",
+    "fee": 100,
+    "router": "0x4f0c28f5926afda16bf2506d5d9e57ea190f9bca"
+  },
+  "fromToken": {
+    "address": "0x779Ded0c9e1022225f8E0630b35a9b54bE713736",
+    "name": "USD₮0",
+    "symbol": "USD₮0",
+    "decimals": 6
+  },
+  "toToken": {
+    "address": "0xB6CEceAB302E2E4948951eE7843FC24E92933061",
+    "name": "USDC",
+    "symbol": "USDC",
+    "decimals": 6
+  },
+  "amountInRaw": "110000",
+  "amountIn": "0.11",
+  "quotedAmountOutRaw": "109981",
+  "quotedAmountOut": "0.109981",
+  "amountOutMinimumRaw": "109431",
+  "amountOutMinimum": "0.109431",
+  "before": {
+    "usdt0": "0.11",
+    "usdc": "0.0",
+    "buyerOKB": "0.0",
+    "deployerOKB": "0.010891199694559985"
+  },
+  "transactions": [
+    {
+      "step": "fund-buyer-gas",
+      "hash": "0xb748b07707330333b2a097107d02858d2af362b2f15bcaac5fa9b5b53738f53c",
+      "blockNumber": 71286869,
+      "gasUsed": "21000"
+    },
+    {
+      "step": "approve-exact-usdt0",
+      "hash": "0xff8304c2b8be84063c8b46db97101768044e5f53f50b3ebb13d901d806ebe196",
+      "blockNumber": 71286871,
+      "gasUsed": "53365"
+    },
+    {
+      "step": "swap-usdt0-to-native-usdc",
+      "hash": "0xc88b9d446a75a0623bd2c6ae9a7ab84fde2998f616ac1bb54718485b65c4d8d0",
+      "blockNumber": 71286874,
+      "gasUsed": "141822"
+    }
+  ],
+  "executedAt": "2026-09-22T05:45:11.881Z",
+  "actualAmountOutRaw": "109981",
+  "actualAmountOut": "0.109981",
+  "after": {
+    "usdt0": "0.0",
+    "usdc": "0.109981",
+    "buyerOKB": "0.000196096259804813",
+    "deployerOKB": "0.010690779694538985",
+    "routerAllowanceRaw": "0"
+  }
+}

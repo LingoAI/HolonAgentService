@@ -1,0 +1,107 @@
+{
+  "deploymentId": "dce97fab-ee01-43e0-994d-f3999b6e1f3a",
+  "network": "xlayer-testnet",
+  "chainId": 1952,
+  "identityRegistry": "0xFF3c22b0f46bB835D5936ca9834801694bE6F53C",
+  "identityImplementation": "0xB2d8f12EE1725A351744fdd0AD820741840535A2",
+  "escrow": "0x183A12457409a12abd3dC95fB8BCEDd9251d461A",
+  "token": {
+    "address": "0x3dCd15F3F7F5dcFeA34F22293dD52e679aE14417",
+    "name": "Demo USD",
+    "version": "1",
+    "decimals": 6,
+    "symbol": "dUSD",
+    "testToken": true
+  },
+  "deployer": "0x389aF48b9aa9C7b72d9b4E0C767AE7cc90E644c1",
+  "client": "0x77655239303161c1Ac7b59C840f8196d2b6f909D",
+  "provider": "0x7d5D3D9dfe359852c83c0634D1272783f2a4e087",
+  "agents": [
+    {
+      "id": "0",
+      "agentId": "0",
+      "erc8004AgentId": "0",
+      "name": "Agent A · Service Buyer",
+      "slug": "buyer",
+      "role": "client",
+      "owner": "0x77655239303161c1Ac7b59C840f8196d2b6f909D",
+      "metadataURI": "data:application/json;base64,eyJ0eXBlIjoiaHR0cHM6Ly9laXBzLmV0aGVyZXVtLm9yZy9FSVBTL2VpcC04MDA0I3JlZ2lzdHJhdGlvbi12MSIsIm5hbWUiOiJBZ2VudCBBIMK3IFNlcnZpY2UgQnV5ZXIiLCJkZXNjcmlwdGlvbiI6IlJlcXVlc3RzIGFuZCBwYXlzIGZvciBhbm90aGVyIGFnZW504oCZcyB0ZXh0IGFuYWx5c2lzIHNlcnZpY2UuIiwiYWN0aXZlIjp0cnVlLCJ4NDAyU3VwcG9ydCI6ZmFsc2UsInNlcnZpY2VzIjpbeyJuYW1lIjoid2ViIiwiZW5kcG9pbnQiOiJodHRwOi8vNDMuOTguMTYxLjIyMy8jbWFya2V0cGxhY2UifV0sInN1cHBvcnRlZFRydXN0IjpbXX0=",
+      "serviceTypes": [],
+      "serviceEndpoint": null,
+      "txHash": "0xc166d3037ea79cc9141d3c2a6a860c1701bd7239b1f0d715f8a67b97cf41b047"
+    },
+    {
+      "id": "1",
+      "agentId": "1",
+      "erc8004AgentId": "1",
+      "name": "Text Analysis Agent",
+      "slug": "text-analysis",
+      "role": "provider",
+      "owner": "0x7d5D3D9dfe359852c83c0634D1272783f2a4e087",
+      "metadataURI": "data:application/json;base64,eyJ0eXBlIjoiaHR0cHM6Ly9laXBzLmV0aGVyZXVtLm9yZy9FSVBTL2VpcC04MDA0I3JlZ2lzdHJhdGlvbi12MSIsIm5hbWUiOiJUZXh0IEFuYWx5c2lzIEFnZW50IiwiZGVzY3JpcHRpb24iOiJFeHRyYWN0cyBhIHN1bW1hcnksIGtleXdvcmQgZnJlcXVlbmNpZXMgYW5kIHRleHQgc3RhdGlzdGljcy4gRml4ZWQgZGV0ZXJtaW5pc3RpYyBza2lsbDsgbm8gZXh0ZXJuYWwgbW9kZWwgcmVxdWlyZWQuIiwiYWN0aXZlIjp0cnVlLCJ4NDAyU3VwcG9ydCI6dHJ1ZSwic2VydmljZXMiOlt7Im5hbWUiOiJ3ZWIiLCJlbmRwb2ludCI6Imh0dHA6Ly80My45OC4xNjEuMjIzLyNtYXJrZXRwbGFjZSJ9LHsibmFtZSI6Ing0MDIiLCJlbmRwb2ludCI6Imh0dHA6Ly80My45OC4xNjEuMjIzL2FwaS9hZ2VudC9yZXNlYXJjaCJ9XSwic3VwcG9ydGVkVHJ1c3QiOltdfQ==",
+      "serviceTypes": [
+        "x402",
+        "erc8183"
+      ],
+      "serviceEndpoint": "/api/agent/research",
+      "txHash": "0x5891a742f8837b79d0731673607e0c100312b03b3c1f92ca75a8ed5caf1cadc4"
+    }
+  ],
+  "transactions": [
+    {
+      "step": "IdentityRegistryUpgradeable",
+      "address": "0xB2d8f12EE1725A351744fdd0AD820741840535A2",
+      "hash": "0xe51b2244302ae0aa6b0f9d991791ddbfe82973e5ba673ba056638ab340e7f0d2",
+      "blockNumber": 41085346,
+      "blockHash": "0x37fceae9541a22cc9815d9929a878272f293e16abcb7aa634a4a385ec759ae73",
+      "previousBlockHashes": [
+        "0x294780231b1354ae5ba9396dd1251e14fb989be2bcf74284fc245b11a58a51d4"
+      ]
+    },
+    {
+      "step": "ERC1967Proxy",
+      "address": "0xFF3c22b0f46bB835D5936ca9834801694bE6F53C",
+      "hash": "0x65e19cefbda9106188c31ac8a07df0a03197e160f28b7eaef6c1d6086d8292f6",
+      "blockNumber": 41085351,
+      "blockHash": "0x169fc663d1355a617474f1b57ac4e0e2077acfaa01c12ebc79adb2841e21e5a7",
+      "previousBlockHashes": [
+        "0xf6f7989e9eac5bbff91d3d8bf5470e8ce2b6b9fb1ac0c4341451e88b90beb231"
+      ]
+    },
+    {
+      "step": "DemoUSD",
+      "address": "0x3dCd15F3F7F5dcFeA34F22293dD52e679aE14417",
+      "hash": "0x4733acb417d14e3db61af575f44b7c9cc2d04b76b049fe4717c959644a77bd1e",
+      "blockNumber": 41085354,
+      "blockHash": "0xf8378dd3e6a86889039448f9eb5f560f4a2167d878468d98d7a74ddf856d8555"
+    },
+    {
+      "step": "TaskEscrow",
+      "address": "0x183A12457409a12abd3dC95fB8BCEDd9251d461A",
+      "hash": "0xe1333807a9b68f46d913e4b1d2aa17a8ebd0a318b5845f98b17d7649fd318f76",
+      "blockNumber": 41085738,
+      "blockHash": "0xa573017117aa8c35f710ddd30c708287b43611df9a305054dd68ddcdac8e9f7d"
+    },
+    {
+      "step": "register-buyer",
+      "hash": "0xc166d3037ea79cc9141d3c2a6a860c1701bd7239b1f0d715f8a67b97cf41b047",
+      "blockNumber": 41085816
+    },
+    {
+      "step": "register-text-analysis",
+      "hash": "0x5891a742f8837b79d0731673607e0c100312b03b3c1f92ca75a8ed5caf1cadc4",
+      "blockNumber": 41085821
+    },
+    {
+      "step": "update-endpoint-buyer",
+      "hash": "0xc2bf5525c3942ff9250e6e1700b8a4cfea8cb842b95efcb6e10e6d897e918d92",
+      "blockNumber": 41090273
+    },
+    {
+      "step": "update-endpoint-text-analysis",
+      "hash": "0x624d09687e9f799fd58847b2512b856c2779acff8ddd3477f8fd018ad6b32611",
+      "blockNumber": 41090286
+    }
+  ],
+  "deployedAt": "2026-09-16T07:42:57.806Z"
+}

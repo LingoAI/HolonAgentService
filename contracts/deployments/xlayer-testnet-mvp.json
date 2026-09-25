@@ -1,0 +1,70 @@
+{
+  "deploymentId": "mvp-59ad10da4acbacbc20355656104561d7",
+  "network": "xlayer-testnet",
+  "chainId": 1952,
+  "identityRegistry": "0xFF3c22b0f46bB835D5936ca9834801694bE6F53C",
+  "identityImplementation": "0xB2d8f12EE1725A351744fdd0AD820741840535A2",
+  "escrow": "0xCE5613dA417360ad6B27C32Fc6bbEB93591615E8",
+  "token": {
+    "address": "0x3dCd15F3F7F5dcFeA34F22293dD52e679aE14417",
+    "name": "Demo USD",
+    "version": "1",
+    "decimals": 6,
+    "symbol": "dUSD",
+    "testToken": true
+  },
+  "deployer": "0x389aF48b9aa9C7b72d9b4E0C767AE7cc90E644c1",
+  "client": "0x77655239303161c1Ac7b59C840f8196d2b6f909D",
+  "provider": "0x7d5D3D9dfe359852c83c0634D1272783f2a4e087",
+  "agents": [
+    {
+      "id": "0",
+      "agentId": "0",
+      "erc8004AgentId": "0",
+      "name": "Agent A · Service Buyer",
+      "slug": "buyer",
+      "role": "client",
+      "owner": "0x77655239303161c1Ac7b59C840f8196d2b6f909D",
+      "metadataURI": "data:application/json;base64,eyJ0eXBlIjoiaHR0cHM6Ly9laXBzLmV0aGVyZXVtLm9yZy9FSVBTL2VpcC04MDA0I3JlZ2lzdHJhdGlvbi12MSIsIm5hbWUiOiJBZ2VudCBBIMK3IFNlcnZpY2UgQnV5ZXIiLCJkZXNjcmlwdGlvbiI6IlJlcXVlc3RzIGFuZCBwYXlzIGZvciBhbm90aGVyIGFnZW504oCZcyB0ZXh0IGFuYWx5c2lzIHNlcnZpY2UuIiwiYWN0aXZlIjp0cnVlLCJ4NDAyU3VwcG9ydCI6ZmFsc2UsInNlcnZpY2VzIjpbeyJuYW1lIjoid2ViIiwiZW5kcG9pbnQiOiJodHRwOi8vNDMuOTguMTYxLjIyMy8jbWFya2V0cGxhY2UifV0sInN1cHBvcnRlZFRydXN0IjpbXX0=",
+      "serviceTypes": [],
+      "serviceEndpoint": null,
+      "txHash": "0xc166d3037ea79cc9141d3c2a6a860c1701bd7239b1f0d715f8a67b97cf41b047"
+    },
+    {
+      "id": "1",
+      "agentId": "1",
+      "erc8004AgentId": "1",
+      "name": "Text Analysis Agent",
+      "slug": "text-analysis",
+      "role": "provider",
+      "owner": "0x7d5D3D9dfe359852c83c0634D1272783f2a4e087",
+      "metadataURI": "data:application/json;base64,eyJ0eXBlIjoiaHR0cHM6Ly9laXBzLmV0aGVyZXVtLm9yZy9FSVBTL2VpcC04MDA0I3JlZ2lzdHJhdGlvbi12MSIsIm5hbWUiOiJUZXh0IEFuYWx5c2lzIEFnZW50IiwiZGVzY3JpcHRpb24iOiJFeHRyYWN0cyBhIHN1bW1hcnksIGtleXdvcmQgZnJlcXVlbmNpZXMgYW5kIHRleHQgc3RhdGlzdGljcy4gRml4ZWQgZGV0ZXJtaW5pc3RpYyBza2lsbDsgbm8gZXh0ZXJuYWwgbW9kZWwgcmVxdWlyZWQuIiwiYWN0aXZlIjp0cnVlLCJ4NDAyU3VwcG9ydCI6dHJ1ZSwic2VydmljZXMiOlt7Im5hbWUiOiJ3ZWIiLCJlbmRwb2ludCI6Imh0dHA6Ly80My45OC4xNjEuMjIzLyNtYXJrZXRwbGFjZSJ9LHsibmFtZSI6Ing0MDIiLCJlbmRwb2ludCI6Imh0dHA6Ly80My45OC4xNjEuMjIzL2FwaS9hZ2VudC9yZXNlYXJjaCJ9XSwic3VwcG9ydGVkVHJ1c3QiOltdfQ==",
+      "serviceTypes": [
+        "x402",
+        "erc8183"
+      ],
+      "serviceEndpoint": "/api/agent/research",
+      "txHash": "0x5891a742f8837b79d0731673607e0c100312b03b3c1f92ca75a8ed5caf1cadc4"
+    }
+  ],
+  "transactions": [
+    {
+      "step": "TaskEscrowMVP",
+      "address": "0xCE5613dA417360ad6B27C32Fc6bbEB93591615E8",
+      "hash": "0x7cff7f2b7fc83a9604c635e2add485e8e7844213334bc34dc910906177c46273",
+      "blockNumber": 41441256,
+      "blockHash": "0x950e96327f6b7a7d9a3aa9d2daa7d02c0db1f68497a79dd0a886b405a7bb8fe6",
+      "bytecodeHash": "0x77d2b5f0a047f037c4944efa1bceecb000c46c094b8846f83c0db1a2c90f7a31"
+    }
+  ],
+  "deployedAt": "2026-09-20T10:28:14.832Z",
+  "mvpVersion": 1,
+  "legacyEscrows": [
+    {
+      "address": "0x183A12457409a12abd3dC95fB8BCEDd9251d461A",
+      "deploymentId": "dce97fab-ee01-43e0-994d-f3999b6e1f3a",
+      "deployedAt": "2026-09-16T07:42:57.806Z",
+      "deploymentBlock": 41085738
+    }
+  ]
+}

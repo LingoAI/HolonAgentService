@@ -1,0 +1,313 @@
+/* Holon — shell chrome layered over app.css (loaded after it, so these win).
+   Only app.css tokens are used here, so light and dark stay in lockstep.
+   Scope: the topbar LINGO chip, the read-only instance note, the standards bar. */
+
+/* The shell grows a third row so the standards bar sits below the content
+   area — part of the layout, never fixed or floating over a view. */
+.app{grid-template-rows:var(--bar) 1fr auto;
+  grid-template-areas:"side bar" "side main" "side foot"}
+
+/* ---- LINGO chip -----------------------------------------------------------
+   The balance comes from the Stage D simulated ledger. That has to be legible
+   without hovering, so the label rides inline instead of in a title. */
+.lingo-chip .sim{font-weight:600;font-size:.68rem;letter-spacing:.02em;
+  opacity:.68;white-space:nowrap}
+/* app.css sets display:inline-flex on the chip, which outranks the UA rule for
+   [hidden] — without this the hidden attribute is inert and the chip leaks onto
+   the marketplace and Verify screens. */
+.lingo-chip[hidden]{display:none}
+
+/* ---- sidebar, public read-only deployment --------------------------------
+   No local Pod to configure and no wallet to connect, so this note says what
+   the instance is in one line rather than showing shell commands nobody can run. */
+.demo-note{font-size:.72rem;line-height:1.5;color:var(--on-surface-variant);
+  background:var(--surface-1);border:1px solid var(--outline-variant);
+  border-radius:14px;padding:11px 12px}
+
+/* ---- standards bar --------------------------------------------------------
+   Five standards this build actually runs; each one links into Verify, where
+   the on-chain evidence for it lives. */
+.stdbar{grid-area:foot;display:flex;flex-wrap:wrap;align-items:center;gap:2px 4px;
+  padding:7px 18px;background:var(--surface);
+  border-top:1px solid var(--outline-variant);z-index:4}
+.stdbar .std{display:inline-flex;align-items:center;gap:7px;padding:5px 10px;
+  border-radius:999px;text-decoration:none;white-space:nowrap;
+  font-size:.72rem;line-height:1.2;color:var(--on-surface-variant);
+  transition:.18s var(--ease)}
+.stdbar .std:hover{background:color-mix(in srgb,var(--on-surface) 7%,transparent);
+  color:var(--on-surface)}
+.stdbar .std:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.stdbar .std svg{width:14px;height:14px;flex:none;opacity:.7}
+.stdbar .std:hover svg{opacity:1}
+.stdbar .std b{font-weight:700;letter-spacing:-.01em;color:var(--on-surface)}
+.stdbar .std .sep{opacity:.4}
+
+@media (max-width:1180px){
+  .stdbar{padding:6px 12px}
+  .stdbar .std{padding:4px 8px;font-size:.68rem;gap:6px}
+}
+
+/* ---- marketplace mode -----------------------------------------------------
+   The public build is judged as an agent marketplace: the topbar names it on
+   one line, with the product credit beside — not a personal greeting. */
+[data-mode=marketplace] .greet{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+[data-mode=marketplace] .greet .greet-sub{margin-top:0}
+
+/* Escape hatch out of marketplace mode, local instances only. */
+.mode-back{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;
+  border-radius:12px;font-size:.8rem;font-weight:600;text-align:left;
+  color:var(--on-surface-variant);border:1px solid var(--outline-variant);
+  background:var(--surface-1);transition:.18s var(--ease)}
+.mode-back:hover{background:var(--surface-2);color:var(--on-surface)}
+.mode-back:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+
+/* ---- phones and narrow windows --------------------------------------------
+   The shell grid's content column was `1fr`, which never shrinks below the
+   width of its content — on a phone the whole main area rendered wider than
+   the screen and was clipped on the right. `minmax(0,1fr)` plus `min-width:0`
+   on the flex/grid children lets the content column actually be as narrow as
+   the screen; the rules below then lay the pieces out for that width. */
+.app{grid-template-columns:var(--side) minmax(0,1fr)}
+.main,.appbar,.greet,.askwrap,.status-group{min-width:0}
+.askwrap .ask{min-width:0;width:100%}
+
+@media (max-width:640px){
+  :root{--side:56px;--bar:56px}
+  .sidebar{padding:10px 6px}
+  .sidebar .brand{padding:0 0 8px}
+  .rail .item{padding:9px 0}
+  .appbar{gap:8px;padding:0 10px}
+  .greet h1{font-size:.88rem}
+  [data-mode=marketplace] .greet .greet-sub{display:none}
+  .askwrap{flex:1 1 80px;height:36px;padding:0 10px;gap:6px}
+  .askwrap .ask-ic{display:none}
+  .askwrap .ask{font-size:16px}          /* 16px stops iOS zooming the page on focus */
+  .status-group{gap:6px}
+  .icon-btn{width:34px;height:34px}
+  /* four rows of standards on a phone is a wall; Verify carries the same links */
+  .stdbar{display:none}
+  .mk .scroll,.scroll.mk{padding:12px 10px 24px}
+  .mk-hero-h{font-size:1.3rem}
+  .mk-hero-sub,.mk-lead{font-size:.9rem}
+  .mk-toolbar{gap:10px;padding:10px}
+  .mk-search{flex:1 1 100%}
+  .mk-search .btn{padding:8px 12px}
+  .mk-toolbar-links{flex:1 1 100%}
+  .mk-home{grid-template-columns:1fr}
+  .mk-sec-head{flex-wrap:wrap;gap:8px}
+  .mk-fields{flex-direction:column}
+  .mk-field.narrow{max-width:none}
+  .mk-actions .btn{flex:1 1 auto}
+  .mk-row-acts{flex-wrap:wrap}
+  /* tables scroll sideways inside their own container instead of folding
+     every cell into one word per line; the page itself never scrolls sideways */
+  .mk-scroll-x .mk-table{min-width:720px}
+  .mk-table th,.mk-table td{padding:8px 10px}
+  .field,select.field,textarea.field{font-size:16px}
+  .chat-input textarea,#chatInput{font-size:16px}
+}
+
+/* The scroll container is a flex item; with the default min-width:auto one
+   non-wrapping row inside it (the registry-id lookup row is ~400px) widened
+   the whole column past the phone screen. Let it shrink, and let the rows
+   wrap or their fields give way instead. */
+.view,.scroll{min-width:0}
+.mk-search .field,.mk-ask-row .field,.mk-lookup-row .field{min-width:0;flex:1 1 60px}
+@media (max-width:640px){
+  .mk-lookup-row{flex-wrap:wrap}
+  .mk-lookup-row select.field{flex:1 1 100%}
+  .mk-lookup-row input.field{flex:1 1 160px}
+}
+
+/* the Pod card carries display rules of its own; [hidden] must still win */
+.pod-card[hidden]{display:none}
+
+/* Holon: a quiet working surface with a distinctive evidence map.
+   System fonts and native geometry keep the UI local, small and responsive. */
+:root{
+  --primary:#5946c8;--on-primary:#fff;--primary-container:#eeeafb;--on-primary-container:#3f2d91;
+  --bg:#f7f7f4;--surface:#fff;--surface-1:#f5f5f2;--surface-2:#eeefec;--surface-3:#e5e7e2;
+  --on-surface:#192223;--on-surface-variant:#626b69;--outline:#cbd0ca;--outline-variant:#e3e6df;
+  --success:#237354;--warning:#95601b;--error:#b83239;
+  --radius:14px;--radius-sm:9px;--radius-lg:22px;
+  --shadow:0 1px 2px #172b1d05;--shadow-2:0 8px 24px #172b1d0a;--bar:72px;
+}
+[data-theme=dark]{
+  --primary:#b7a7ff;--on-primary:#21163e;--primary-container:#302846;--on-primary-container:#ded4ff;
+  --bg:#111719;--surface:#182022;--surface-1:#1e2729;--surface-2:#253033;--surface-3:#2c393c;
+  --on-surface:#edf2eb;--on-surface-variant:#a7b5b0;--outline:#45534e;--outline-variant:#2c3834;
+  --success:#8ed4b0;--warning:#e4b66d;--error:#ffa1a4;
+}
+html{scrollbar-color:var(--outline) transparent}
+body{letter-spacing:-.012em}
+.skip-link{position:fixed;top:8px;left:16px;transform:translateY(-150%);z-index:2000;
+  background:var(--on-surface);color:var(--surface);padding:12px 18px;border-radius:8px}
+.skip-link:focus{transform:none}
+:where(a,button,input,select,textarea,summary):focus-visible{outline:2px solid var(--primary);outline-offset:3px}
+.main:focus{outline:none}
+.sidebar{padding:24px 16px 18px;background:var(--surface);border-color:var(--outline-variant)}
+.sidebar .brand{gap:12px;margin-bottom:28px;padding:0 10px;font-size:1.12rem}
+.sidebar .brand .mark{background:#1e3635;color:#ccf3dd;border-radius:50%;width:38px;height:38px;box-shadow:none}
+.sidebar .brand .txt{font-weight:500;line-height:1.15}
+.sidebar .brand .txt b{font-weight:700;letter-spacing:-.035em;font-size:1.25rem}
+.sidebar .brand .sub{font-size:.52rem;letter-spacing:.13em;margin-top:5px}
+.rail{gap:5px}
+.rail .item{min-height:44px;border-radius:9px;font-size:.82rem;padding:11px 13px;font-weight:500}
+.rail .item.active{background:var(--primary-container);box-shadow:inset 2px 0 0 var(--primary)}
+.rail .item .mobile-lbl{display:none}
+.demo-note{background:transparent;border:0;border-top:1px solid var(--outline-variant);border-radius:0;padding:16px 8px 0}
+.appbar{background:var(--surface);border-color:var(--outline-variant);padding-inline:32px;gap:20px}
+.greet h1{font-weight:650;font-size:.96rem;letter-spacing:-.02em}
+[data-mode=marketplace] .greet{display:block}
+[data-mode=marketplace] .greet .greet-sub{font-size:.72rem;margin-top:4px}
+.askwrap{background:var(--surface-1);border-radius:9px;box-shadow:none;max-width:360px;height:40px}
+.askwrap .ask{font-size:.8rem}
+.status-group{gap:14px}
+.icon-btn{border-radius:9px}
+.stdbar{background:var(--surface);padding-block:5px}
+.stdbar .std{font-size:.66rem}
+.scroll.mk{padding:28px 32px 44px;scroll-behavior:smooth}
+.card{box-shadow:none;border-color:var(--outline-variant)}
+.hover:hover{box-shadow:var(--shadow-2)}
+.btn{border-radius:9px;box-shadow:none;min-height:42px;font-weight:600;font-size:.82rem;padding:10px 17px}
+.btn:hover{transform:none;box-shadow:0 3px 10px #172b1d10}
+.btn.text{min-height:36px}
+.field{border-radius:9px;box-shadow:none;min-height:42px}
+.chip{border-radius:7px}
+.chip.tiny,.chip.net,.chip.state{border-radius:5px}
+.mk-head{margin-bottom:10px}
+.mk-title{font-size:1.5rem;letter-spacing:-.035em;font-weight:650}
+.mk-lead{font-size:.86rem;line-height:1.7}
+.mk-h3{font-size:1.12rem;font-weight:600;letter-spacing:-.035em;margin-bottom:16px}
+.mk-sec-head h4{font-size:1rem;font-weight:600;letter-spacing:-.025em}
+.holon-hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,1fr);gap:8px;align-items:center;
+  position:relative;overflow:hidden;background:#142c2c;border:1px solid #294241;border-radius:20px;
+  padding:34px 36px 28px;color:#f1f6ec;margin:0 0 12px;
+  background-image:radial-gradient(ellipse at 84% 50%,#41615a65,transparent 58%)}
+.holon-hero-copy{position:relative;z-index:1}
+.holon-eyebrow{display:flex;align-items:center;gap:9px;font-size:.58rem;letter-spacing:.18em;font-weight:650;color:#b9d7c8;margin-bottom:17px}
+.holon-seal{font-size:1rem;line-height:1}
+.holon-hero .mk-hero-h{font-size:clamp(1.85rem,3.4vw,3.4rem);font-weight:500;line-height:1.08;letter-spacing:-.065em;color:#f5f7ef}
+.holon-hero .mk-hero-sub{font-size:.95rem;color:#c3d3cb;line-height:1.65;margin-top:15px}
+.holon-hero-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:22px}
+.holon-hero-actions a{display:inline-flex;align-items:center;gap:16px;min-height:42px;font-size:.77rem;font-weight:600;text-decoration:none;border-radius:8px}
+.holon-hero-primary{background:#e1f3df;color:#1b3631;padding:10px 16px}
+.holon-hero-primary:hover{background:#fff}
+.holon-hero-secondary{color:#e2eae0}
+.holon-hero-secondary:hover{text-decoration:underline;text-underline-offset:4px}
+.holon-hero-caption{font-size:.6rem;letter-spacing:.025em;color:#a7c2b5;margin:20px 0 0}
+.holon-orbit{position:relative;min-width:0;aspect-ratio:400/240;color:#cbf6da;max-width:440px;width:100%;justify-self:center}
+.holon-orbit>svg{width:100%;height:100%;filter:drop-shadow(0 0 12px #c9ffdb38)}
+.holon-orbit-link{position:absolute;display:flex;gap:9px;align-items:center;min-height:44px;text-decoration:none;
+  color:#e7f2e7;padding:6px 9px;border:1px solid transparent;border-radius:8px;font-size:.72rem;transition:background .18s,border-color .18s}
+.holon-orbit-link i{width:7px;height:7px;border-radius:50%;background:#bceccd;box-shadow:0 0 15px #b6f5ce78;flex:none}
+.holon-orbit-link small{display:block;font-size:.57rem;font-weight:400;color:#a4c4b6;margin-top:3px}
+.holon-orbit-link:hover,.holon-orbit-link:focus-visible{background:#213e38;border-color:#71988b;outline-color:#c8ecd2}
+.orbit-health{left:1%;top:9%}.orbit-grid{right:-1%;top:9%}
+.orbit-rebalance{left:4%;bottom:11%}.orbit-yield{right:-2%;bottom:11%}
+.holon-orbit-label{position:absolute;left:0;right:0;bottom:0;text-align:center;font-size:.48rem;letter-spacing:.18em;color:#a6c4b5}
+.market-availability{display:flex;align-items:center;gap:9px;padding:10px 2px 14px;font-size:.7rem;line-height:1.6;color:var(--on-surface-variant)}
+.market-availability strong{font-weight:600;color:var(--on-surface)}
+.availability-mark{font-size:1rem;color:var(--primary);flex:none}
+.market-availability>a{margin-left:auto;white-space:nowrap;font-weight:600;color:var(--primary);padding:8px 0}
+.market-availability[data-state=capped] .availability-mark{color:var(--warning)}
+.mk-toolbar{border-radius:12px;padding:12px 14px;background:var(--surface);gap:10px 16px;margin-bottom:26px}
+.mk-search{flex-basis:320px}
+.mk-search .field{background:var(--surface-1);border-color:transparent}
+.mk-search .field:focus{background:var(--surface);border-color:var(--primary)}
+.mk-toolbar-links{flex:0 1 auto;gap:6px}
+.mk-toolbar-links .chip{border-color:transparent;background:transparent;min-height:36px;color:var(--on-surface-variant)}
+.mk-toolbar-links .chip:hover{background:var(--surface-1);color:var(--on-surface)}
+.mk-advanced{flex-basis:100%;border-top:1px solid var(--outline-variant);padding-top:10px;font-size:.72rem;color:var(--on-surface-variant)}
+.mk-advanced summary{cursor:pointer;width:fit-content;padding:5px 0}
+.mk-advanced .mk-lookup{border-top:0;margin-top:6px;padding-top:6px}
+.mk-cats{gap:12px;margin-bottom:32px;grid-template-columns:repeat(2,minmax(0,1fr))}
+.mk-cat{position:relative;box-shadow:none;padding:20px;gap:8px;min-width:0;border-radius:12px;transition:border-color .18s,background .18s}
+.mk-cat:hover{transform:none;box-shadow:none;background:var(--surface-1);border-color:var(--primary)}
+.mk-cat-ic{width:34px;height:34px;font-size:1rem;border-radius:9px;background:var(--surface-1);color:var(--primary);margin-bottom:4px}
+.mk-cat-name{font-weight:600;font-size:.97rem;letter-spacing:-.025em}
+.mk-cat-role{font-size:.52rem;letter-spacing:.1em;color:var(--on-surface-variant)}
+.mk-cat-blurb{font-size:.77rem;line-height:1.6;max-width:35ch}
+.mk-cat-count{margin-top:8px;display:flex;justify-content:space-between;width:100%;font-size:.65rem;font-weight:600}
+.mk-cat-count span{font-size:1rem}
+.mk-home{gap:24px}
+.mk-home-side{gap:14px}
+.mk-side{padding:20px}
+.mk-home-side .mk-name{font-size:1.02rem;font-weight:600;letter-spacing:-.025em}
+.mk-home-side .mk-best-r{padding-block:13px}
+.mk-home-side .mk-note{font-size:.73rem}
+.mk-feat-grid{gap:12px}
+.mk-feat{padding:20px}
+.mk-name{font-weight:600;letter-spacing:-.02em}
+.mk-table{font-size:.78rem}
+.mk-table th{font-weight:600;font-size:.65rem;letter-spacing:.035em}
+.mk-table td{line-height:1.6}
+.mk-scroll-x{overscroll-behavior-inline:contain;border-radius:10px}
+.domino>*{animation:none}
+.view.active{animation:none}
+.chat-log{padding-top:36px}
+.chat-empty .mark{border-radius:50%;background:#1e3635;color:#cfead6;box-shadow:none}
+.chat-empty h2{font-weight:550;letter-spacing:-.045em;font-size:2rem}
+.chat-empty p{line-height:1.75;font-size:.94rem}
+.suggestion{border-radius:12px;box-shadow:none;text-align:left}
+.composer{border-radius:16px;box-shadow:0 8px 35px #172b1d0b;padding:12px;max-width:800px}
+.row.ai .bubble{line-height:1.85}
+.row.me .bubble{background:var(--surface-2);border-radius:14px}
+.chat-log .row{max-width:800px}
+
+@media(min-width:1200px){.mk-home{grid-template-columns:minmax(0,1fr) 300px}}
+@media(min-width:1700px){.scroll.mk{padding-inline:max(32px,calc((100vw - var(--side) - 1280px)/2))}}
+@media(max-width:1180px){
+  .appbar{padding-inline:24px}.scroll.mk{padding:24px}
+  .holon-hero{padding:28px;grid-template-columns:minmax(0,1fr) minmax(250px,.8fr)}
+  .holon-hero .mk-hero-h{font-size:2.4rem}.holon-orbit-link{font-size:.64rem}.holon-orbit-link small{font-size:.5rem}
+  .market-availability>a{display:none}
+}
+@media(max-width:860px){
+  .holon-hero{grid-template-columns:1fr}.holon-orbit{display:none}
+  .holon-hero .mk-hero-h{font-size:2.6rem}.holon-hero .mk-hero-sub br{display:none}
+  .greet .greet-sub{display:none}.appbar{gap:12px}
+}
+@media(max-width:640px){
+  :root{--side:0px;--bar:60px}
+  .app{grid-template-columns:minmax(0,1fr);grid-template-rows:60px minmax(0,1fr) auto;grid-template-areas:"bar" "main" "side";height:100dvh}
+  .sidebar{padding:5px 4px max(5px,env(safe-area-inset-bottom));border:0;border-top:1px solid var(--outline-variant);z-index:20;overflow:hidden;min-width:0}
+  .sidebar .brand,.sidebar .side-bottom{display:none}
+  .rail{flex-direction:row;gap:1px;overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-width:none}
+  .rail .item{flex:1 0 55px;width:auto;min-height:54px;flex-direction:column;gap:4px;padding:6px 3px;border-radius:8px;justify-content:center}
+  .rail .item .lbl{display:none}.rail .item .mobile-lbl{display:block;font-size:.55rem;line-height:1.15;white-space:nowrap}
+  .rail .item .ic{width:19px;height:19px}.rail .item svg{width:18px;height:18px}
+  .rail .item.active{box-shadow:inset 0 2px 0 var(--primary)}
+  .side-div{display:none}
+  .appbar{padding:0 16px;gap:12px}
+  .greet{flex:1;min-width:0}.greet h1{font-size:.9rem;white-space:nowrap}
+  .askwrap{display:none}.status-group{gap:8px}.icon-btn{width:40px;height:40px}
+  .scroll.mk{padding:16px 16px 28px}
+  .holon-hero{padding:25px 23px 22px;border-radius:16px}
+  .holon-eyebrow{font-size:.5rem;letter-spacing:.14em;margin-bottom:16px}
+  .holon-hero .mk-hero-h{font-size:2.2rem;letter-spacing:-.065em}
+  .holon-hero .mk-hero-sub{font-size:.82rem;margin-top:13px;max-width:28ch}
+  .holon-hero-actions{gap:10px 16px;margin-top:17px}
+  .holon-hero-actions a{font-size:.7rem;min-height:42px}.holon-hero-primary{padding:9px 12px;gap:10px}
+  .holon-hero-caption{font-size:.5rem;max-width:32ch;line-height:1.7;margin-top:15px}
+  .market-availability{font-size:.66rem;align-items:flex-start;padding-bottom:15px;gap:8px}
+  .availability-mark{line-height:1.45}
+  .mk-toolbar{padding:10px;gap:8px;margin-bottom:23px}.mk-search{gap:7px}
+  .mk-search .field{font-size:16px;padding:9px 11px}.mk-search .btn{font-size:.76rem;padding:9px 12px}
+  .mk-toolbar-links{flex-basis:100%;gap:2px}.mk-toolbar-links .chip{padding:7px 10px;font-size:.65rem}
+  .mk-advanced{font-size:.67rem;padding-top:6px}
+  .mk-h3{font-size:1.1rem;margin-bottom:12px}
+  .mk-cats{gap:9px}.mk-cat{padding:14px 12px;gap:7px}.mk-cat-ic{width:28px;height:28px;font-size:.85rem}
+  .mk-cat-name{font-size:.83rem;line-height:1.25}.mk-cat-role{font-size:.44rem;letter-spacing:.065em}
+  .mk-cat-blurb{font-size:.69rem;line-height:1.55}.mk-cat-count{font-size:.58rem;align-items:center;margin-top:4px}
+  .mk-home{gap:18px}.mk-side,.mk-feat{padding:18px}
+  .mk-title{font-size:1.25rem;line-height:1.25}.mk-lead{font-size:.78rem}
+  .mk-head h2{font-size:1.15rem}
+  .chat-log{padding:24px 18px 12px}.chat-empty{padding:18px 0;gap:15px;min-height:0}
+  .chat-empty h2{font-size:1.7rem}.chat-empty p{font-size:.85rem}
+  .composer{width:calc(100% - 28px);margin-bottom:14px;padding:10px;border-radius:15px}
+  .composer-input{font-size:16px;min-width:0}.composer-actions{flex:none}
+  .suggestion{font-size:.78rem;min-height:44px}
+  .stdbar{display:none}
+}
+@media(prefers-reduced-motion:reduce){.scroll.mk{scroll-behavior:auto}}

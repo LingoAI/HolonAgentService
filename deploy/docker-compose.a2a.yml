@@ -1,0 +1,32 @@
+services:
+  a2a:
+    build:
+      context: ./a2a
+    image: holon-okx-a2a:0.2.16
+    restart: unless-stopped
+    user: "1000:1000"
+    environment:
+      HOME: /data
+      ONCHAINOS_HOME: /data/onchainos
+      OKX_AGENT_TASK_HOME: /data/a2a
+      OKX_A2A_HOME_DIR: /data/a2a
+      OKX_A2A_AI_CWD: /data/a2a/workspace
+      # The host disables unprivileged user namespaces, so Codex's own bwrap
+      # sandbox cannot launch shell commands. Docker remains the isolation layer.
+      OKX_A2A_AI_CODEX_SANDBOX: danger-full-access
+      OKX_A2A_AI_CODEX_APPROVAL_POLICY: never
+      CODEX_HOME: /data/codex
+    volumes:
+      - ${OKX_A2A_STATE_DIR:?Set OKX_A2A_STATE_DIR}:/data
+      - ${OKX_A2A_SOURCE_DIR:?Set OKX_A2A_SOURCE_DIR}:/workspace:ro
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=128m
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-09-20",
+  "network": "xlayer-testnet",
+  "chainId": 1952,
+  "teamControlledDemoWallets": true,
+  "deployment": {
+    "identityRegistry": "0xFF3c22b0f46bB835D5936ca9834801694bE6F53C",
+    "token": "0x3dCd15F3F7F5dcFeA34F22293dD52e679aE14417",
+    "tokenSymbol": "dUSD",
+    "tokenDecimals": 6,
+    "escrow": "0xCE5613dA417360ad6B27C32Fc6bbEB93591615E8",
+    "legacyEscrow": "0x183A12457409a12abd3dC95fB8BCEDd9251d461A",
+    "deploymentTransaction": "0x7cff7f2b7fc83a9604c635e2add485e8e7844213334bc34dc910906177c46273",
+    "deploymentBlock": 41441256,
+    "runtimeBytecodeKeccak256": "0x77d2b5f0a047f037c4944efa1bceecb000c46c094b8846f83c0db1a2c90f7a31"
+  },
+  "roles": {
+    "buyer": "0x77655239303161c1Ac7b59C840f8196d2b6f909D",
+    "provider": "0x7d5D3D9dfe359852c83c0634D1272783f2a4e087",
+    "evaluator": "0x389aF48b9aa9C7b72d9b4E0C767AE7cc90E644c1",
+    "providerAgentId": "2",
+    "providerRegistrationTransaction": "0x454dbb906dbd25077453237c92ea3e54c6e11375be20dac38f85561ffb195f93"
+  },
+  "applicationFlow": {
+    "successfulJob": {
+      "jobId": "1",
+      "amountRaw": "1000000",
+      "status": "Completed",
+      "transactions": {
+        "create": "0x84be242e28a3ac1f28785b4183c923501b2bf34af443b5b9ec6c5caf7bbe3253",
+        "budget": "0xdc7ee7f2fc233530e663dbaaea40a4f0174147febc55e7198ff8c677ab37cecf",
+        "approve": "0x2fd5cd512a5d920404224beda90c5152e02b14158c4a86ed390c5b706a6bff56",
+        "fund": "0x224042a535af5e654addb63f1b42f3400c31eea694d65888f0c44283dc81b328",
+        "submit": "0xc20fe0407e7270974e1527137838725680b5420a1a37a7dad0c5aa46d67bf9d8",
+        "complete": "0x769eb333d25675fd33d6c0e3af67cc0f45010492bed1381376e3d8352d87b0f9"
+      },
+      "delivery": {
+        "fileCid": "bafkreigf4oskzj4j443sog2galltzezllfjumspypzyj7toxdjgk2nas2q",
+        "manifestCid": "bafkreievrmw2mk5zugdc7gj6itxeupfdlifmy5rciz2erumzyv25zxaesi",
+        "fileSha256": "c5e3a4aca789e737271b4602d73c932b59534649f87e709fcdd71a4cad3412d4",
+        "manifestSha256": "958b2da62bb9a1862f993e44ee4a3ca35a0acc7622467448d199c575dcdc0492",
+        "manifestKeccak256": "0x8b5d66da188013d0e6c9b0e20ed65b39a31cb42ac1be2c2ab1dab619b0f367ce"
+      }
+    },
+    "rejectedJob": {
+      "jobId": "2",
+      "amountRaw": "1000000",
+      "status": "Rejected",
+      "transactions": {
+        "create": "0x99c886cc5cb13cb8d43e9aaba1d3e4f7485c691248b5a294cc7b1f0689f656a1",
+        "budget": "0xf349751441987bf5045ebb936d33a48490175a42d20d8637587c161af52b3d6f",
+        "approve": "0xa0d30b678965f9a86d90b9760e8b27e924cde4621f736dc7f9239ede80c4409d",
+        "fund": "0x450c3e03404578ee28ca39a7b1031c8c160b341191d81d6fa462f7c034f9611d",
+        "reject": "0xa25879f2b737bbff9623d574ea6d0fefc096ce583ecb37ab139c1fedcc61894c"
+      }
+    }
+  },
+  "realDeadlineFlow": {
+    "expiredAt": 1789901846,
+    "fundedJob": {
+      "jobId": "3",
+      "status": "Expired",
+      "create": "0x934028ef880a1ab1723ac514a6297747a79c938578384ae117d0ac887599d650",
+      "fund": "0x56927c826310650badbfecee8dc8bb317924a4e572e5c2a97053f0f50266e95b",
+      "refund": "0xee22d3484b87432c0f0dc422434a8277ebde54b4a63a0d3ed741ca89f838d078",
+      "refundCaller": "0x389aF48b9aa9C7b72d9b4E0C767AE7cc90E644c1"
+    },
+    "submittedJob": {
+      "jobId": "4",
+      "status": "Expired",
+      "create": "0xcabad6408e42d8c9a3136065f3e9823b8cb1c5ccafc7dbd6f2b9a20b58511653",
+      "fund": "0x4a5a4750a058f5d98d0aa114566f6675b487965263cab6f20403fb34aef35369",
+      "submit": "0x127d21c753b0ecc9111de05c8669df07612e30356a6efd049032f8b7d233aad1",
+      "refund": "0x002c43abf8c3810fd82cfc30033780e9e6c5f40b791e4b8986fd9a2a34d2ea34",
+      "refundCaller": "0x7d5D3D9dfe359852c83c0634D1272783f2a4e087"
+    }
+  },
+  "finalBalancesRaw": {
+    "buyer": "999996980000",
+    "provider": "3020000",
+    "evaluator": "0",
+    "escrow": "0"
+  },
+  "readModel": {
+    "mvpJobs": 4,
+    "legacyJobs": 4,
+    "indexedMvpEvents": 28,
+    "allFourMvpJobsTerminal": true
+  },
+  "storageBoundary": {
+    "localPinReadback": true,
+    "carRoundTripSameCids": true,
+    "independentPublicGateway": false,
+    "note": "Public gateway discovery remains a public pin/deployment acceptance item; it is not represented as passed."
+  }
+}

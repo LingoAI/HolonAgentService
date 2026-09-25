@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "network": "xlayer-mainnet",
+  "chainId": 196,
+  "deploymentId": "mainnet-canary-f1da325d5d38c68b9cfbff598ee909df",
+  "deployment": {
+    "escrow": "0xCDF4fF99a28b231A0446A8be1c36B4A5E3D50215",
+    "identityRegistry": "0xc29d13d375195E60EAf565eab154d68c5084773f",
+    "token": "0xB6CEceAB302E2E4948951eE7843FC24E92933061"
+  },
+  "roles": {
+    "deployer": "0x7Cd5e739CD6037C37d0bfF6ce6861f2983e69D36",
+    "buyer": "0x0321ef63b7C10d1E33a7eB1a7b5f431121211eAb",
+    "provider": "0xC51ba41519f2C7da10324c61a6325066a190252B",
+    "facilitator": "0x3ECfb863288FfB00aD971345312259E15079C297"
+  },
+  "amountRaw": "100000",
+  "startedAt": "2026-09-22T06:05:52.076Z",
+  "transactions": [
+    {
+      "step": "fund-provider-gas",
+      "hash": "0x260dca79fe7f991644dbcfc84339bbc6d9a47edecc22f6167bf69be695cb25ac",
+      "blockNumber": 71288118,
+      "gasUsed": "21000"
+    },
+    {
+      "step": "fund-facilitator-gas",
+      "hash": "0x7fab311a60ad01f2d2fd777fc48290f79021792788fe19bdebfb1513b66fff2e",
+      "blockNumber": 71288217,
+      "gasUsed": "21000"
+    },
+    {
+      "step": "register-agent",
+      "hash": "0x540dee32e02efba0181c9bc03e202b8e6943168a6044ec5e46185e4451a7373d",
+      "blockNumber": 71288494,
+      "gasUsed": "218106"
+    },
+    {
+      "step": "create-agent-job",
+      "hash": "0x1fb473f8ba0a63154085257c39fd887d01ed35edac2a3062cf08b53c72caef13",
+      "blockNumber": 71288497,
+      "gasUsed": "265473"
+    },
+    {
+      "step": "set-budget",
+      "hash": "0xa43875daa0bea67230c5d561970fda298828412dbe8ab59a83973589d27904b6",
+      "blockNumber": 71288500,
+      "gasUsed": "53999"
+    },
+    {
+      "step": "approve-exact-usdc",
+      "hash": "0x4ee8418c4cf7e10e2343b14bf49cfd2d24d0c5484664dea2c168b464b3d8d2e9",
+      "blockNumber": 71288502,
+      "gasUsed": "55437"
+    },
+    {
+      "step": "fund-job",
+      "hash": "0x56533c46de86b5d21653c4713adafbdace339a33072a393413de66b521eb6ed4",
+      "blockNumber": 71288504,
+      "gasUsed": "130282"
+    },
+    {
+      "step": "submit-delivery",
+      "hash": "0x244e399b857ac7b4d41295e8d45cabcb36a1975ad50d9c84599ae0e974429753",
+      "blockNumber": 71288526,
+      "gasUsed": "99029"
+    },
+    {
+      "step": "complete-job",
+      "hash": "0x1761a092116069e3e0e8e9352f3eba439b249e9b5e14898f4c196abeb0cd6b93",
+      "blockNumber": 71288529,
+      "gasUsed": "102162"
+    }
+  ],
+  "initialBalances": {
+    "buyerUSDC": "109981",
+    "providerUSDC": "0",
+    "escrowUSDC": "0"
+  },
+  "ipfs": {
+    "metadataCid": "bafkreiaomd4api5cf7rvgfeebthewun7fptsn65jcwlwjiaw7zkz6xwgzm",
+    "metadata": {
+      "url": "https://gateway.pinata.cloud/ipfs/bafkreiaomd4api5cf7rvgfeebthewun7fptsn65jcwlwjiaw7zkz6xwgzm",
+      "bytes": 437,
+      "sha256": "0e60f807a3a22fe35314840cce4b51bf2be726fba9159764a016fe559f5ec6cb"
+    },
+    "bundle": {
+      "rootCid": "bafybeidqlogsc75zbkmmfr32rwt5gqaubpovdxmrykfgo54xazd2hhk67a",
+      "carPath": "data/mainnet-native-usdc-proof/ipfs/car/bafybeidqlogsc75zbkmmfr32rwt5gqaubpovdxmrykfgo54xazd2hhk67a.car",
+      "carBytes": 1165,
+      "carSha256": "f276ab4bb21f92cda6f675aab5fa301e4f5a6c66e5d51a58d739de0931eda6ad"
+    },
+    "documentCid": "bafkreihhkhzfxfkreh4p7iadozlnrnjf6fsjcys676fpdzaky2mfqb7tom",
+    "manifestCid": "bafkreiaz5zjkghkloum6gc3vwe6duni7ay4upw4iax6fmw4t7mpcjuwnly",
+    "document": {
+      "url": "https://gateway.pinata.cloud/ipfs/bafkreihhkhzfxfkreh4p7iadozlnrnjf6fsjcys676fpdzaky2mfqb7tom",
+      "bytes": 429,
+      "sha256": "e751f25b955121f8ffa0037656d8b525f16491625eff8af1e40ac6985807f373"
+    },
+    "manifest": {
+      "url": "https://gateway.pinata.cloud/ipfs/bafkreiaz5zjkghkloum6gc3vwe6duni7ay4upw4iax6fmw4t7mpcjuwnly",
+      "bytes": 445,
+      "sha256": "19ee52a31d4b7519e30b75b13c3a351f063947db8805fc565b93fb1e24d2cd5e"
+    },
+    "manifestKeccak256": "0x37f7e32512f5717a7d792f994d9b90e74f142cce78b55708b6845c7aa445f4dc"
+  },
+  "agentId": "0",
+  "expiredAt": 1790143930,
+  "jobId": "1",
+  "completedAt": "2026-09-22T06:12:47.249Z",
+  "status": "Completed",
+  "delivery": {
+    "uri": "ipfs://bafkreiaz5zjkghkloum6gc3vwe6duni7ay4upw4iax6fmw4t7mpcjuwnly",
+    "digest": "0x37f7e32512f5717a7d792f994d9b90e74f142cce78b55708b6845c7aa445f4dc"
+  },
+  "finalBalances": {
+    "buyerUSDC": "0.009981",
+    "providerUSDC": "0.1",
+    "escrowUSDC": "0.0",
+    "buyerOKB": "0.000185992439299622",
+    "providerOKB": "0.000193657299682865",
+    "facilitatorOKB": "0.000197956759897838"
+  }
+}

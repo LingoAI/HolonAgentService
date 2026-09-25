@@ -1,0 +1,14 @@
+{$MARKETPLACE_DOMAIN} {
+    encode gzip
+    handle_path /demo/* {
+        root * /srv/public-media
+        file_server
+    }
+    handle {
+        reverse_proxy holon:8765 {
+            transport http {
+                response_header_timeout 300s
+            }
+        }
+    }
+}

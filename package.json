@@ -1,0 +1,60 @@
+{
+  "name": "okx-agent-marketplace",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "compile": "node contracts/scripts/compile.mjs",
+    "chain": "hardhat node --hostname 127.0.0.1",
+    "deploy:local": "HIRE_NETWORK=local node protocol/cli.mjs deploy",
+    "deploy:testnet": "HIRE_NETWORK=xlayer-testnet node scripts/testnet.mjs preflight && HIRE_NETWORK=xlayer-testnet node --env-file=.env protocol/cli.mjs deploy",
+    "deploy:mvp-escrow": "npm run compile && HIRE_NETWORK=xlayer-testnet node --env-file=.env contracts/scripts/deploy-mvp-escrow.mjs",
+    "verify:mvp-deployment": "HIRE_NETWORK=xlayer-testnet MVP_DEPLOYMENT_MANIFEST=xlayer-testnet-mvp.json node --env-file=.env scripts/verify-mvp-deployment.mjs",
+    "verify:mvp-local": "node scripts/verify-mvp-local.mjs",
+    "verify:mvp-testnet-flow": "HIRE_NETWORK=xlayer-testnet MVP_DEPLOYMENT_MANIFEST=xlayer-testnet-mvp.json node --env-file=.env scripts/verify-mvp-local.mjs",
+    "verify:mvp-testnet-expiry": "HIRE_NETWORK=xlayer-testnet MVP_DEPLOYMENT_MANIFEST=xlayer-testnet-mvp.json node --env-file=.env scripts/verify-mvp-testnet-expiry.mjs",
+    "package:mvp-release": "node scripts/package-mvp-release.mjs",
+    "init:mainnet-canary": "node scripts/mainnet-canary.mjs init",
+    "preflight:mainnet-canary": "npm run compile && node --env-file=.env.mainnet-canary scripts/mainnet-canary.mjs preflight",
+    "deploy:mainnet-canary": "npm run compile && node --env-file=.env.mainnet-canary scripts/mainnet-canary.mjs deploy",
+    "resume:mainnet-canary": "npm run compile && node --env-file=.env.mainnet-canary scripts/mainnet-canary.mjs resume",
+    "verify:mainnet-canary": "npm run compile && node --env-file=.env.mainnet-canary scripts/mainnet-canary.mjs verify",
+    "quote:mainnet-canary-swap": "node --env-file=.env.mainnet-canary scripts/swap-mainnet-canary-usdt0-to-usdc.mjs",
+    "swap:mainnet-canary-usdt0-to-usdc": "node --env-file=.env.mainnet-canary scripts/swap-mainnet-canary-usdt0-to-usdc.mjs execute",
+    "prove:mainnet-canary": "npm run compile && node --env-file=.env.mainnet-canary scripts/run-mainnet-canary-proof.mjs execute",
+    "package:mainnet-canary-release": "node scripts/package-mainnet-canary-release.mjs",
+    "okx:a2a": "node scripts/okx-a2a.mjs",
+    "okx:a2a:doctor": "node scripts/okx-a2a.mjs doctor --non-interactive",
+    "okx:a2a:start": "node scripts/okx-a2a.mjs daemon start",
+    "okx:a2a:status": "node scripts/okx-a2a.mjs daemon status",
+    "resume:testnet": "HIRE_NETWORK=xlayer-testnet node --env-file=.env protocol/cli.mjs resume-deploy",
+    "protocol": "node protocol/server.mjs",
+    "build:wallet": "esbuild protocol/wallet.mjs --bundle --format=esm --target=es2022 --outfile=frontend/vendor/x402-wallet.js",
+    "test:contracts": "npm run compile && hardhat test --no-compile",
+    "test:protocol": "node --test protocol/*.test.mjs",
+    "demo:local": "node scripts/demo-local.mjs",
+    "demo:testnet": "HIRE_NETWORK=xlayer-testnet node --env-file=.env scripts/demo-testnet.mjs",
+    "verify:testnet": "HIRE_NETWORK=xlayer-testnet node --env-file=.env scripts/verify-testnet.mjs",
+    "dev:local": "node scripts/dev-local.mjs",
+    "init:testnet": "node scripts/testnet.mjs init",
+    "preflight:testnet": "node scripts/testnet.mjs preflight",
+    "start:testnet": "HIRE_NETWORK=xlayer-testnet PYTHON_BIN=.venv/bin/python node --env-file=.env scripts/start-services.mjs",
+    "fund:testnet": "node scripts/testnet.mjs fund"
+  },
+  "dependencies": {
+    "@okxweb3/a2a-node": "0.2.16",
+    "@openzeppelin/contracts": "5.4.0",
+    "@openzeppelin/contracts-upgradeable": "5.4.0",
+    "@x402/core": "2.25.0",
+    "@x402/evm": "2.25.0",
+    "ethers": "6.17.0",
+    "viem": "2.56.8"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.12",
+    "hardhat": "2.29.1",
+    "solc": "0.8.30"
+  }
+}

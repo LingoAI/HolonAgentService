@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "deploymentId": "mainnet-canary-dba3cf28497f14d4bb5bbf5594083136",
+  "deploymentMode": "mainnet-canary",
+  "canaryVersion": 1,
+  "mvpVersion": 1,
+  "network": "xlayer-mainnet",
+  "chainId": 196,
+  "identityRegistry": "0x6D1154b8a3260C1184998adaCe01744b0FFD9094",
+  "identityImplementation": "0xFf728F4Cc0B3C283e61d62e4A997df2267F6F53D",
+  "identityOwner": "0x7Cd5e739CD6037C37d0bfF6ce6861f2983e69D36",
+  "escrow": "0x4725A9F81f5d7565ec5c93C470faDC9da52A8B47",
+  "escrowArtifact": "MainnetCanaryEscrow",
+  "token": {
+    "address": "0x74b7f16337b8972027f6196a17a631ac6de26d22",
+    "name": "USD Coin",
+    "symbol": "USDC",
+    "decimals": 6,
+    "version": "2",
+    "testToken": false,
+    "bytecodeHash": "0xe8de16445c59006a2552e1a6faebcd94e3660a4b2ecbdbc8f0bb206d436b040e",
+    "domainSeparator": "0xb1671065a2ea487729c4ff0e2f8beb2105e3ce63315ad07483374a3476b83972"
+  },
+  "limits": {
+    "maxBudgetRaw": "1000000",
+    "maxTotalEscrowRaw": "5000000"
+  },
+  "applicationDomain": {
+    "name": "LingoAI Mainnet Canary Market",
+    "version": "1"
+  },
+  "canaryAccounts": {
+    "deployer": "0x7Cd5e739CD6037C37d0bfF6ce6861f2983e69D36",
+    "buyer": "0x0321ef63b7C10d1E33a7eB1a7b5f431121211eAb",
+    "agent_provider": "0xC51ba41519f2C7da10324c61a6325066a190252B",
+    "facilitator": "0x3ECfb863288FfB00aD971345312259E15079C297"
+  },
+  "deployer": "0x7Cd5e739CD6037C37d0bfF6ce6861f2983e69D36",
+  "client": "0x0321ef63b7C10d1E33a7eB1a7b5f431121211eAb",
+  "provider": "0xC51ba41519f2C7da10324c61a6325066a190252B",
+  "facilitator": "0x3ECfb863288FfB00aD971345312259E15079C297",
+  "agents": [],
+  "transactions": [
+    {
+      "step": "IdentityRegistryUpgradeable",
+      "address": "0xFf728F4Cc0B3C283e61d62e4A997df2267F6F53D",
+      "hash": "0x5a4999070e4ba9ede38e6b55225efacf336e60c46aa2e2b1ea70b513d103835a",
+      "blockNumber": 71232891,
+      "blockHash": "0x85cc5d98ba55c3cee2ed2be8474b217e24d9a4897251a977048cbdff99feaae5",
+      "bytecodeHash": "0x25113755be0d16bc9edaa4fbda2ab1e8f99084ad5de7c5acce4d5457b5ad30ec"
+    },
+    {
+      "step": "ERC1967Proxy",
+      "address": "0x6D1154b8a3260C1184998adaCe01744b0FFD9094",
+      "hash": "0x9d0857af0bd166b1f580e4c80e74a03ca225e0a52d8e4c38b81eceaece166d64",
+      "blockNumber": 71232892,
+      "blockHash": "0xb361aaf34394e4d7fa277ae6339f6fb6de49046b95d20c4bb4ec88f14aa26b70",
+      "bytecodeHash": "0x9311c7281c5c4743bf7e66eda81ec852eda5d1c7b79a6e099c60176c390cdbea"
+    },
+    {
+      "step": "MainnetCanaryEscrow",
+      "address": "0x4725A9F81f5d7565ec5c93C470faDC9da52A8B47",
+      "hash": "0x73dee5407b69b1dc6ff3c974289c472f87510481cc72907df08f9bd4ddd30e68",
+      "blockNumber": 71232894,
+      "blockHash": "0x1744be3aa5a5cba3014d915847738926bfbede1b7cdb768c5beedb3ffa459867",
+      "bytecodeHash": "0x49b5ebb7d5d54d34f76ac06457871276bb1e9e30c994fec581699d048f50590f"
+    }
+  ],
+  "deployedAt": "2026-09-21T14:45:30.167Z",
+  "warning": "Capped public demonstration only; not the production market contract."
+}

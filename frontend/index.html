@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LingoAI X Layer Agent Marketplace</title>
+  <meta name="description" content="Discover registered agents, pay per service with x402, and manage tasks with ERC-8183 escrow on X Layer. Follow verifiable evidence from request to result.">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light dark">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Holon">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%237c6af7'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='white' stroke-width='2.4'/%3E%3Ccircle cx='16' cy='16' r='2.6' fill='white'/%3E%3C/svg%3E">
+  <script src="/js/boot.js"></script>
+  <link rel="stylesheet" href="/app.css">
+  <link rel="stylesheet" href="/shell.css">
+  <link rel="stylesheet" href="/xlayer.css">
+  <script src="/vendor/cytoscape.min.js"></script>
+  <script src="/vendor/layout-base.js"></script>
+  <script src="/vendor/cose-base.js"></script>
+  <script src="/vendor/cytoscape-fcose.min.js"></script>
+  <script src="/vendor/marked.min.js"></script>
+  <script src="/vendor/purify.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="app">
+    <aside class="sidebar">
+      <span class="brand">
+        <span class="mark" aria-hidden="true">◐</span>
+        <span class="txt">LingoAI <b>Holon</b><span class="sub">sovereign ontology</span></span>
+      </span>
+      <nav class="rail" id="rail" aria-label="Primary"></nav>
+      <div class="side-bottom">
+        <div class="pod-card" id="podCard">
+          <div class="pod-title">My Solid Pod</div>
+          <div class="muted pod-body" id="podBody">checking…</div>
+        </div>
+        <button class="wallet-card" id="walletCard" title="wallet">
+          <span class="dot" id="walletDot"></span><span id="walletAddr">Not connected</span>
+        </button>
+      </div>
+    </aside>
+    <header class="appbar">
+      <div class="greet">
+        <h1 id="greetTitle">Hello 👋</h1>
+        <div class="greet-sub" id="greetSub">Your data. Your ontology. Your AI.</div>
+      </div>
+      <div class="askwrap">
+        <span class="ask-ic" aria-hidden="true">⌕</span>
+        <input id="askInput" class="ask" placeholder="Ask Holon anything…" aria-label="Ask Holon anything">
+        <kbd title="Command palette">⌘K</kbd>
+      </div>
+      <span class="spacer"></span>
+      <div class="status-group">
+        <span class="lingo-chip" id="lingoChip" hidden title="Stage D simulated ledger — not an on-chain balance">◈ 0 LINGO</span>
+        <span class="engine" title="engine status"><span class="dot" id="engineDot"></span></span>
+        <button class="icon-btn" id="themeBtn" title="toggle theme" aria-label="Toggle theme">◑</button>
+      </div>
+    </header>
+    <main class="main" id="main" tabindex="-1">
+      <section class="view" data-view="holon"></section>
+      <section class="view" data-view="chat"></section>
+      <section class="view" data-view="ontology"></section>
+      <section class="view" data-view="memory"></section>
+      <section class="view" data-view="sources"></section>
+      <section class="view" data-view="sovereignty"></section>
+      <section class="view" data-view="roadmap"></section>
+      <section class="view" data-view="metalife"></section>
+      <section class="view" data-view="marketplace"></section>
+    </main>
+    <!-- Standards this build actually runs. Every item links into Verify,
+         where the on-chain / Pod evidence for it can be checked. -->
+    <footer class="stdbar" aria-label="Standards this build runs">
+      <a class="std" href="#verify">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M4.8 20a7.2 7.2 0 0 1 14.4 0"/></svg>
+        <b>ERC-8004</b><span class="sep">·</span><span>Agent identity</span>
+      </a>
+      <a class="std" href="#verify">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4.6" y="10.4" width="14.8" height="9.4" rx="2.2"/><path d="M8.3 10.4V7.9a3.7 3.7 0 0 1 7.4 0v2.5"/></svg>
+        <b>ERC-8183</b><span class="sep">·</span><span>Escrowed hiring</span>
+      </a>
+      <a class="std" href="#verify">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M9.4 14.6l5.2-5.2"/><path d="M12.9 7.3l1.6-1.6a3.6 3.6 0 1 1 5.1 5.1l-1.6 1.6"/><path d="M11.1 16.7l-1.6 1.6a3.6 3.6 0 1 1-5.1-5.1l1.6-1.6"/></svg>
+        <b>Network</b><span class="sep">·</span><span>Contracts and jobs</span>
+      </a>
+      <a class="std" href="#verify">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><ellipse cx="12" cy="6.2" rx="7" ry="2.8"/><path d="M5 6.2v11.6c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8V6.2"/><path d="M5 12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8"/></svg>
+        <b>Evidence</b><span class="sep">·</span><span>Delivery and permissions</span>
+      </a>
+      <a class="std" href="#verify">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 2.8l7 2.6v6c0 4.4-3 8.1-7 9.8-4-1.7-7-5.4-7-9.8v-6z"/><path d="M8.6 12.1l2.4 2.4 4.4-4.6"/></svg>
+        <b>Solid</b><span class="sep">·</span><span>Consent and sovereign data</span>
+      </a>
+    </footer>
+  </div>
+  <div id="sr-live" aria-live="polite" class="sr-only"></div>
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>

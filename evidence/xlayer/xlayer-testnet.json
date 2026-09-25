@@ -1,0 +1,169 @@
+{
+  "network": "xlayer-testnet",
+  "chainId": 1952,
+  "deploymentId": "dce97fab-ee01-43e0-994d-f3999b6e1f3a",
+  "runId": "054611af-838f-44f3-b6f5-0a594b98d129",
+  "verifiedAt": "2026-09-16T09:04:32.593Z",
+  "serviceURL": "http://43.98.161.223",
+  "contracts": {
+    "identityRegistry": "0xFF3c22b0f46bB835D5936ca9834801694bE6F53C",
+    "token": "0x3dCd15F3F7F5dcFeA34F22293dD52e679aE14417",
+    "escrow": "0x183A12457409a12abd3dC95fB8BCEDd9251d461A"
+  },
+  "demoA": {
+    "txHash": "0xcc0463847e33d3c54feaf30576fd5796fc388e7784d74bfd81ab31c3bd7c952e",
+    "amount": "0.01 dUSD",
+    "replayChargedAgain": false,
+    "lostResponseRecovered": true,
+    "recoveryCheck": "Verified inside the server container using an isolated journal copy; new settlement disabled; see server-payment-recovery.json",
+    "forgedAmountStatus": 400,
+    "result": {
+      "agent": "Text Analysis Agent",
+      "method": "deterministic text analysis",
+      "summary": "X Layer testnet agent commerce acceptance 054611af-838f-44f3-b6f5-0a594b98d129. Agent A pays Agent B for text analysis.",
+      "wordCount": 19,
+      "characters": 119,
+      "keywords": [
+        {
+          "word": "agent",
+          "count": 3
+        },
+        {
+          "word": "054611af",
+          "count": 1
+        },
+        {
+          "word": "0a594b98d129",
+          "count": 1
+        },
+        {
+          "word": "44f3",
+          "count": 1
+        },
+        {
+          "word": "838f",
+          "count": 1
+        },
+        {
+          "word": "acceptance",
+          "count": 1
+        },
+        {
+          "word": "analysis",
+          "count": 1
+        },
+        {
+          "word": "b6f5",
+          "count": 1
+        }
+      ]
+    },
+    "replayAfterRestartVerified": true
+  },
+  "demoB": {
+    "jobId": "3",
+    "status": "Completed",
+    "budget": "1 dUSD",
+    "deliverable": "0xe75bb5c2d01426416c509c594649890742c6496d3ae011d331e7be2b60a458f2",
+    "resultHashVerified": true
+  },
+  "refund": {
+    "jobId": "4",
+    "status": "Rejected",
+    "refunded": "1 dUSD",
+    "txHash": "0xe0662e4b20b094c1bb3c4bdf300258b9a26836c2d62600a2f776a831fa868931"
+  },
+  "balances": {
+    "providerDelta": "1.01 dUSD",
+    "buyerDelta": "-1.01 dUSD",
+    "escrowReturnedToBaseline": true
+  },
+  "localSigningHTTPStatus": 403,
+  "signingMode": "Dedicated test accounts through CLI; browser extension signing is a separate acceptance step",
+  "transactions": [
+    {
+      "step": "x402-payment",
+      "hash": "0xcc0463847e33d3c54feaf30576fd5796fc388e7784d74bfd81ab31c3bd7c952e",
+      "blockNumber": 41090368,
+      "status": 1,
+      "explorer": "https://web3.okx.com/zh-hans/explorer/x-layer-testnet/tx/0xcc0463847e33d3c54feaf30576fd5796fc388e7784d74bfd81ab31c3bd7c952e"
+    },
+    {
+      "step": "complete-create",
+      "hash": "0x7f7cc07a14647dddec209430e7c9a27daa5db75d8f1f1a580070648ac0c3abd7",
+      "blockNumber": 41090560,
+      "status": 1,
+      "explorer": "https://web3.okx.com/zh-hans/explorer/x-layer-testnet/tx/0x7f7cc07a14647dddec209430e7c9a27daa5db75d8f1f1a580070648ac0c3abd7"
+    },
+    {
+      "step": "complete-budget",
+      "hash": "0xd2773f0684c4b8f9f8f1e0e00749371851e8f32453e716cf35399b0962778017",
+      "blockNumber": 41090565,
+      "status": 1,
+      "explorer": "https://web3.okx.com/zh-hans/explorer/x-layer-testnet/tx/0xd2773f0684c4b8f9f8f1e0e00749371851e8f32453e716cf35399b0962778017"
+    },
+    {
+      "step": "complete-approve",
+      "hash": "0xe37058750fa73dac36ee48afc81c872156e34c548e9accd7c2f68bcbebf399fd",
+      "blockNumber": 41090570,
+      "status": 1,
+      "explorer": "https://web3.okx.com/zh-hans/explorer/x-layer-testnet/tx/0xe37058750fa73dac36ee48afc81c872156e34c548e9accd7c2f68bcbebf399fd"
+    },
+    {
+      "step": "complete-fund",
+      "hash": "0xbeca7423353aeb32f85ec0170938ba70b5b625b332dd9f0c28693b7d6ed00094",
+      "blockNumber": 41090575,
+      "status": 1,
+      "explorer": "https://web3.okx.com/zh-hans/explorer/x-layer-testnet/tx/0xbeca7423353aeb32f85ec0170938ba70b5b625b332dd9f0c28693b7d6ed00094"
+    },
+    {
+      "step": "complete-pay",
+      "hash": "0x89a92a4b09717e7d980bb0b19bf9325ebea64ea5601de9044aa8dca2880c5eaa",
+      "blockNumber": 41090591,
+      "status": 1,
+      "explorer": "https://web3.okx.com/zh-hans/explorer/x-layer-testnet/tx/0x89a92a4b09717e7d980bb0b19bf9325ebea64ea5601de9044aa8dca2880c5eaa"
+    },
+    {
+      "step": "refund-create",
+      "hash": "0x7c9765257c7022a793dc8b58511210ba1bf2e5acf52a52a1043742993507befa",
+      "blockNumber": 41090600,
+      "status": 1,
+      "explorer": "https://web3.okx.com/zh-hans/explorer/x-layer-testnet/tx/0x7c9765257c7022a793dc8b58511210ba1bf2e5acf52a52a1043742993507befa"
+    },
+    {
+      "step": "refund-budget",
+      "hash": "0xc503141663563f37297528a59d6d88d22594717a735cf1bb37a0badb03681f64",
+      "blockNumber": 41090605,
+      "status": 1,
+      "explorer": "https://web3.okx.com/zh-hans/explorer/x-layer-testnet/tx/0xc503141663563f37297528a59d6d88d22594717a735cf1bb37a0badb03681f64"
+    },
+    {
+      "step": "refund-approve",
+      "hash": "0xcd49a33bd50ee2b6632ea04cbf0b3c3695275fcd1509caf67733a4c6b71f18a3",
+      "blockNumber": 41090610,
+      "status": 1,
+      "explorer": "https://web3.okx.com/zh-hans/explorer/x-layer-testnet/tx/0xcd49a33bd50ee2b6632ea04cbf0b3c3695275fcd1509caf67733a4c6b71f18a3"
+    },
+    {
+      "step": "refund-fund",
+      "hash": "0x49173a4cd39f234d0567b093be66eccfb892922c597e579b1331260d6590d9ec",
+      "blockNumber": 41090615,
+      "status": 1,
+      "explorer": "https://web3.okx.com/zh-hans/explorer/x-layer-testnet/tx/0x49173a4cd39f234d0567b093be66eccfb892922c597e579b1331260d6590d9ec"
+    },
+    {
+      "step": "refund-reject",
+      "hash": "0xe0662e4b20b094c1bb3c4bdf300258b9a26836c2d62600a2f776a831fa868931",
+      "blockNumber": 41090619,
+      "status": 1,
+      "explorer": "https://web3.okx.com/zh-hans/explorer/x-layer-testnet/tx/0xe0662e4b20b094c1bb3c4bdf300258b9a26836c2d62600a2f776a831fa868931"
+    },
+    {
+      "step": "complete-submit",
+      "hash": "0xf8d279c673e395e50af6a5bbd9c445e3f7cf870c30f07716a52c45fefc1a6887",
+      "blockNumber": 41090581,
+      "status": 1,
+      "explorer": "https://web3.okx.com/zh-hans/explorer/x-layer-testnet/tx/0xf8d279c673e395e50af6a5bbd9c445e3f7cf870c30f07716a52c45fefc1a6887"
+    }
+  ]
+}

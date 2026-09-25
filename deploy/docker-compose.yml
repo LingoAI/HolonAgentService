@@ -1,0 +1,96 @@
+# Optional X Layer deployment behind Caddy. `cd deploy && docker compose up -d --build`
+services:
+  holon:
+    build:
+      context: ..
+      args:
+        REVISION: ${HOLON_TAG:-local}
+    image: holon:${HOLON_TAG:-local}
+    restart: unless-stopped
+    env_file: ${MARKETPLACE_ENV_FILE:-.env}
+    environment:
+      - PORT=8765
+      - APP_HOST=0.0.0.0
+      - PROTOCOL_PORT=9402
+      - HIRE_NETWORK=${HIRE_NETWORK:-xlayer-testnet}
+      - MVP_DEPLOYMENT_MANIFEST=${MVP_DEPLOYMENT_MANIFEST:-xlayer-testnet-mvp.json}
+      - MVP_PUBLIC_ORIGIN=${MVP_PUBLIC_ORIGIN:?Set MVP_PUBLIC_ORIGIN in deploy/.env}
+      - MVP_MAINNET_CANARY=${MVP_MAINNET_CANARY:-0}
+      - MVP_RETENTION_UNTIL=${MVP_RETENTION_UNTIL:-2026-10-31}
+      - MVP_DATA_DIR=${MVP_DATA_DIR:-/app/data/mvp}
+      - MVP_IPFS_API=http://ipfs:5001
+      - MVP_IPFS_GATEWAYS=${MVP_IPFS_GATEWAYS:-https://ipfs.io/ipfs/,https://dweb.link/ipfs/}
+      - HOLON_INDEX_ON_BOOT=0
+      # /health reports this; deploy with HOLON_TAG=$(git rev-parse --short HEAD)
+      - HOLON_REVISION=${HOLON_TAG:-local}
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    volumes:
+      - holon_data:/app/data
+      - mvp_backups:/app/backups
+      - ../contracts/deployments:/app/contracts/deployments:ro
+    expose:
+      - "8765"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8765/health', timeout=5).status==200 else 1)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    depends_on:
+      ipfs:
+        condition: service_healthy
+  ipfs:
+    image: ipfs/kubo:v0.43.1
+    restart: unless-stopped
+    environment:
+      - IPFS_TELEMETRY=off
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    volumes:
+      - ipfs_data:/data/ipfs
+      - ipfs_staging:/export
+    ports:
+      - "4001:4001"
+      - "4001:4001/udp"
+    expose:
+      - "5001"
+    healthcheck:
+      test: ["CMD", "ipfs", "id"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+  caddy:
+    environment:
+      MARKETPLACE_DOMAIN: ${MARKETPLACE_DOMAIN:?Set MARKETPLACE_DOMAIN in deploy/.env}
+    image: caddy:2
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ${MARKETPLACE_PUBLIC_MEDIA_DIR:-/home/ecs-user/okx-agent-marketplace/shared/public-media}:/srv/public-media:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - holon
+volumes:
+  holon_data:
+  mvp_backups:
+  ipfs_data:
+  ipfs_staging:
+  caddy_data:
+  caddy_config:

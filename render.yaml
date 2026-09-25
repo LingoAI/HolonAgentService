@@ -1,0 +1,23 @@
+# Configure provider/facilitator wallets and a public deployment manifest before hosting.
+services:
+  - type: web
+    name: lingoai-xlayer-marketplace
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    region: singapore
+    healthCheckPath: /health
+    disk:
+      name: protocol-state
+      mountPath: /app/data
+      sizeGB: 1
+    envVars:
+      - key: HIRE_NETWORK
+        value: xlayer-testnet
+      - key: HOLON_INDEX_ON_BOOT
+        value: "0"
+      - key: HOLON_PUBLIC_URL
+        sync: false
+      - key: AGENT_PROVIDER_PRIVATE_KEY
+        sync: false
+      - key: FACILITATOR_PRIVATE_KEY
+        sync: false

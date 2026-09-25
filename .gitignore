@@ -1,0 +1,35 @@
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+.ollama_key
+.credentials.json
+.onchainos/
+/.onchainos-buyer/
+
+# Local data and Python environments
+/data/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Browser test dependencies and output
+node_modules/
+playwright-report/
+test-results/
+
+# OS files
+.DS_Store
+contracts/artifacts/
+contracts/cache/
+contracts/deployments/local.json
+frontend/vendor/x402-wallet.js
+*.log
+contracts/deployments/*.progress.json
+:memory:.ses
+/artifacts/okx-dev-day-video/
+/docs/
