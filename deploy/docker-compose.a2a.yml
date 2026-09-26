@@ -1,8 +1,9 @@
 services:
   a2a:
     build:
-      context: ./a2a
-    image: holon-okx-a2a:0.2.16
+      context: ..
+      dockerfile: deploy/a2a/Dockerfile
+    image: ${OKX_A2A_IMAGE:-holon-okx-a2a:0.2.16}
     restart: unless-stopped
     user: "1000:1000"
     environment:
@@ -16,6 +17,7 @@ services:
       OKX_A2A_AI_CODEX_SANDBOX: danger-full-access
       OKX_A2A_AI_CODEX_APPROVAL_POLICY: never
       CODEX_HOME: /data/codex
+      XLAYER_MAINNET_RPC_URL: ${XLAYER_MAINNET_RPC_URL:-https://rpc.xlayer.tech}
     volumes:
       - ${OKX_A2A_STATE_DIR:?Set OKX_A2A_STATE_DIR}:/data
       - ${OKX_A2A_SOURCE_DIR:?Set OKX_A2A_SOURCE_DIR}:/workspace:ro

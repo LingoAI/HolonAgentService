@@ -128,7 +128,7 @@ class TokenAuthMiddleware(BaseHTTPMiddleware):
     tailnet, docker). Env is read per-request so tests and restarts are cheap."""
     async def dispatch(self, request, call_next):
         token = os.getenv("HOLON_TOKEN", "").strip()
-        if token and request.url.path.startswith("/api/"):
+        if token and (request.url.path.startswith("/api/") or request.url.path in ("/mcp", "/verify")):
             got = request.headers.get("authorization", "")
             if not (got.startswith("Bearer ") and _secrets.compare_digest(got[7:], token)):
                 from starlette.responses import JSONResponse

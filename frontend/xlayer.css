@@ -282,3 +282,22 @@ html[data-application="xlayer"] .stdbar .std {min-height:30px;font-size:11px}
 @media(prefers-reduced-motion:reduce) {
   html[data-application="xlayer"] *,html[data-application="xlayer"] *::before,html[data-application="xlayer"] *::after {animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
+
+/* Official OKX services precede the independent escrow workspace. */
+.xl-official { margin: 28px 0 36px; }
+.xl-service-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 22px; margin: 20px 0 28px; }
+.xl-service { border: 1px solid var(--outline-variant); border-radius: 14px; padding: 26px; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; background: var(--surface,#fff); }
+.xl-service h3 { font-size: 24px; line-height: 1.2; margin: 0; }
+.xl-service p { margin: 0; line-height: 1.6; }
+.xl-service-price { font-size: 32px; font-weight: 650; margin: auto 0 6px; padding-top: 14px; }
+.xl-service-price span { font-size: 14px; font-weight: 450; color: var(--on-surface-variant); }
+.xl-recorded-proof { border-top: 1px solid var(--outline-variant); padding: 24px 0 12px; }
+.xl-proof-row { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 18px 0; border-bottom: 1px solid var(--outline-variant); }
+.xl-proof-row small { display: block; margin-top: 7px; color: var(--on-surface-variant); line-height: 1.5; }
+.xl-recorded-proof > a { display: inline-block; margin-top: 18px; }
+.xl-service-boundary { max-width: 900px; line-height: 1.6; margin-top: 20px; }
+.xl-independent { border-top: 1px solid var(--outline-variant); padding: 22px 0; }
+.xl-independent > summary { cursor: pointer; font-size: 17px; font-weight: 550; }
+.xl-independent-body { padding: 20px 0; }
+.xl-independent-body > p { line-height: 1.6; max-width: 900px; }
+@media(max-width:720px) { .xl-service-grid { grid-template-columns:1fr; } .xl-proof-row { align-items:flex-start; flex-direction:column; gap:10px; } .xl-service { padding:22px; } }

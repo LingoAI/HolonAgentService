@@ -41,16 +41,22 @@
     "init:testnet": "node scripts/testnet.mjs init",
     "preflight:testnet": "node scripts/testnet.mjs preflight",
     "start:testnet": "HIRE_NETWORK=xlayer-testnet PYTHON_BIN=.venv/bin/python node --env-file=.env scripts/start-services.mjs",
-    "fund:testnet": "node scripts/testnet.mjs fund"
+    "fund:testnet": "node scripts/testnet.mjs fund",
+    "verify:mcp": "node scripts/verify-mcp.mjs"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "1.30.1",
     "@okxweb3/a2a-node": "0.2.16",
+    "@okxweb3/x402-core": "0.1.0",
+    "@okxweb3/x402-evm": "0.2.1",
     "@openzeppelin/contracts": "5.4.0",
     "@openzeppelin/contracts-upgradeable": "5.4.0",
     "@x402/core": "2.25.0",
     "@x402/evm": "2.25.0",
     "ethers": "6.17.0",
-    "viem": "2.56.8"
+    "multiformats": "14.0.5",
+    "viem": "2.56.8",
+    "zod": "4.6.5"
   },
   "devDependencies": {
     "esbuild": "0.25.12",

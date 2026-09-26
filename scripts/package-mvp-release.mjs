@@ -14,19 +14,18 @@ if(deployment.chainId!==1952 || deployment.network!=='xlayer-testnet' || deploym
 
 // Explicit allowlist: never package the root .env, private keys, local SSH
 // material, arbitrary data or the historical server runtime configuration.
-const inputs=['Dockerfile','.dockerignore','README.md',
+const inputs=['Dockerfile','.dockerignore',
   'package.json','package-lock.json','requirements.txt','requirements.lock','backend','frontend','config',
   'contracts/src','contracts/scripts/compile.mjs',`contracts/deployments/${manifestName}`,'protocol',
-  'scripts/start-services.mjs','scripts/mvp-backup.py','scripts/restore-mvp-ipfs.py','deploy',
-  'evidence/xlayer/mvp-xlayer-testnet-2026-09-20.json',
-  'evidence/xlayer/mainnet-native-usdc-proof-2026-09-22.json'];
+  'scripts/start-services.mjs','scripts/mvp-backup.py','scripts/restore-mvp-ipfs.py','scripts/verify-mcp.mjs','deploy',
+  'docs/evidence/mainnet-native-usdc-proof-2026-09-22.json'];
 const files=[];
 function collect(relative) {
   if(relative.startsWith('frontend/js/views/market') || /^frontend\/js\/views\/_(market|hire|quote|jobState)\.js$/.test(relative))return;
   const file=path.join(ROOT,relative),stat=fs.lstatSync(file),name=path.basename(file);
   if(stat.isSymbolicLink())throw new Error(`Release input cannot be a symlink: ${relative}`);
   if(['__pycache__','node_modules','.DS_Store','artifacts','cache','tests'].includes(name) ||
-      name.endsWith('.pyc') || name.endsWith('.test.mjs') || name==='.env')return;
+      name.endsWith('.pyc') || name.endsWith('.test.mjs') || name.startsWith('.env'))return;
   if(stat.isDirectory())for(const child of fs.readdirSync(file).sort())collect(path.join(relative,child));
   else if(stat.isFile())files.push(relative);
 }

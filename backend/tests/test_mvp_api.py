@@ -51,13 +51,6 @@ def market(monkeypatch, tmp_path):
     monkeypatch.setenv("MVP_PUBLIC_ORIGIN", "http://testserver")
     monkeypatch.setenv("MVP_DATA_DIR", str(tmp_path / "data"))
     monkeypatch.delenv("HOLON_READONLY", raising=False)
-    # The API test uses a fake protocol, so it must not depend on a local
-    # deployment manifest left behind by a developer's private checkout.
-    local_deployment = {"identityRegistry": "0x" + "55" * 20,
-                        "escrow": "0x" + "55" * 20,
-                        "token": {"symbol": "dUSD", "decimals": 6, "testToken": True}}
-    monkeypatch.setattr(mvp.xlayer, "configuration", lambda: {
-        "network": {"name": "local", "chainId": 31337}, "deployment": local_deployment})
     mvp._store_cache.clear()
     mvp._storage_cache.clear()
     fake_storage = FakeStorage(tmp_path / "objects")

@@ -71,12 +71,12 @@ function applyMode() {
   document.documentElement.dataset.application = 'xlayer';
   if (xlayerMode) {
     const brand = document.querySelector('.brand .txt');
-    if (brand) brand.innerHTML = 'LingoAI <b>Agents</b><span class="sub">on-chain commerce</span>';
+    if (brand) brand.innerHTML = 'LingoAI <b>Holon</b><span class="sub">verifiable agent services</span>';
     const mark = document.querySelector('.brand .mark');
     if (mark) mark.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m5 7 7-4 7 4v10l-7 4-7-4zM5 7l7 4 7-4M12 11v10"/></svg>';
     document.getElementById('themeBtn').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4v16"/><path d="M12 4a8 8 0 0 1 0 16" fill="currentColor"/></svg>';
     const standards = document.querySelector('.stdbar');
-    if (standards) standards.innerHTML = [['ERC-8004','Agent identity'],['EIP-712','Signed applications'],['ERC-8183','Task escrow'],['IPFS','Public evidence'],['X Layer','Settlement']].map(([name,label])=>`<a class="std" href="#verify"><b>${name}</b><span class="sep">·</span><span>${label}</span></a>`).join('');
+    if (standards) standards.innerHTML = [['OKX AI','Agent marketplace','https://www.okx.ai/agents/13847'],['A2MCP / A2A','Official services','/mcp.html'],['X Layer','USDT settlement','#marketplace'],['IPFS','Verifiable delivery','#marketplace'],['LingoAI Holon','Evidence and analysis','/mcp.html']].map(([name,label,url])=>`<a class="std" href="${url}"><b>${name}</b><span class="sep">·</span><span>${label}</span></a>`).join('');
   }
   const navigation = xlayerMode ? MARKET_NAV : (marketMode ? MARKET_NAV : NAV);
   buildRail(onNav, { nav: navigation,

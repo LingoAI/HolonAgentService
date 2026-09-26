@@ -3,6 +3,7 @@ import {connectNetwork,registeredAgentId,signApplication,signLogin,tokenBalance,
 
 let root=null, config=null, mvp=null, account=null, balance=null, tasks=[], providers=[], orders=[], session=null, chainError=null;
 let mainnetProof=null, mainnetVerification=null, mainnetVerifiedAt=0, mainnetVerifyPending=false;
+let officialEvidence=null;
 let busy=false, poll=null, epoch=0, dataReady=false, lastLoadedAt=0, initialLoad=null, refreshPending=null, chainPending=null;
 let publicTasks=[], mineTasks=[];
 const walletProvider=()=>window.okxwallet || window.ethereum;
@@ -86,6 +87,9 @@ async function connect({login=true}={}) {
   return connected;
 }
 async function loadData() {
+  if(!officialEvidence) {
+    try {const r=await fetch('/api/xlayer/official-evidence');if(r.ok)officialEvidence=await r.json();} catch {}
+  }
   const [setup, activeSession]=await Promise.all([
     mvp?Promise.resolve(null):Promise.all([api('/config'),config.network.name==='xlayer-mainnet'?proofApi():Promise.resolve(null)]),
     api('/auth/session'),
@@ -192,17 +196,17 @@ async function resumePending() {
   pendingSet(null);return reconciled;
 }
 
-function shell(title,subtitle,content) {
+function shell(title,subtitle,content,{official=false}={}) {
   const pending=pendingGet();
   const mainnet=mvp.rules.mainnetCanary;
-  return `<div class="scroll xl"><div class="xl-content"><header class="xl-heading"><div><span class="xl-eyebrow">FIXED-BOUNTY MARKET / ${esc(config.network.label.toUpperCase())}</span><h2>${esc(title)}</h2><p class="muted">${esc(subtitle)}</p></div><div class="xl-actions"><button class="btn outlined" data-action="connect">${I.wallet}${account?esc(short(account)):'Connect & sign in'}</button><button class="btn text" data-action="refresh">${I.refresh} Refresh</button></div></header>
-    <div class="xl-network-bar"><span>${I.shield} ${esc(config.network.label)} <span class="xl-chain-id">/ Chain ${config.network.chainId}</span></span><span>${esc(tokenSymbol())}${mvp.rules.testToken?' is a test token':' is a real mainnet asset'} · balance ${balance?`${esc(balance.formatted)} ${esc(tokenSymbol())}`:'connect wallet'} · gas requires ${mainnet?'mainnet ':'test '}OKB</span></div>
+  return `<div class="scroll xl"><div class="xl-content"><header class="xl-heading"><div><span class="xl-eyebrow">${official?'OKX AI / VERIFIABLE AGENT SERVICES':'FIXED-BOUNTY MARKET / '+esc(config.network.label.toUpperCase())}</span><h2>${esc(title)}</h2><p class="muted">${esc(subtitle)}</p></div><div class="xl-actions">${official?'<a class="btn filled" href="/mcp.html">Connect your agent '+I.arrow+'</a>':`<button class="btn outlined" data-action="connect">${I.wallet}${account?esc(short(account)):'Connect & sign in'}</button>`}<button class="btn text" data-action="refresh">${I.refresh} Refresh</button></div></header>
+    <div class="xl-network-bar"><span>${I.shield} ${esc(config.network.label)} <span class="xl-chain-id">/ Chain ${config.network.chainId}</span></span><span>${official?'Official services · USDT settlement':`${esc(tokenSymbol())}${mvp.rules.testToken?' is a test token':' is a real mainnet asset'} · balance ${balance?`${esc(balance.formatted)} ${esc(tokenSymbol())}`:'connect wallet'} · gas requires ${mainnet?'mainnet ':'test '}OKB`}</span></div>
     ${chainError?`<div class="xl-note bad">Chain state is currently unknown: ${esc(chainError)} Confirm receipts before retrying any transaction.</div>`:''}
-    ${mainnet?`<div class="xl-note bad"><strong>Limited mainnet canary.</strong> Real USDC is used. The immutable contract caps each job at ${esc(formatRaw(mvp.rules.maxBudgetRaw))} ${esc(tokenSymbol())} and total escrow at ${esc(formatRaw(mvp.deployment.limits.maxTotalEscrowRaw))} ${esc(tokenSymbol())}. This is a public demonstration, not the production market.</div>`:''}
-    <div class="xl-note xl-disclosure"><strong>Public, fixed-bounty workflow.</strong> Files are public on IPFS. The one absolute deadline covers delivery and review; even submitted work can be refunded to the buyer after expiry. The evaluator may reject and refund. This is not decentralized arbitration or seller protection.</div>
+    ${mainnet&&!official?`<div class="xl-note bad"><strong>Limited mainnet canary.</strong> Real USDC is used. The immutable contract caps each job at ${esc(formatRaw(mvp.rules.maxBudgetRaw))} ${esc(tokenSymbol())} and total escrow at ${esc(formatRaw(mvp.deployment.limits.maxTotalEscrowRaw))} ${esc(tokenSymbol())}. This is a public demonstration, not the production market.</div>`:''}
+    ${!official?'<div class="xl-note xl-disclosure"><strong>Public, fixed-bounty workflow.</strong> Files are public on IPFS. The one absolute deadline covers delivery and review; even submitted work can be refunded to the buyer after expiry. The evaluator may reject and refund. This is not decentralized arbitration or seller protection.</div>':''}
     <div id="xl-note" class="xl-note" hidden role="status" aria-live="polite"></div>
     ${pending?`<div class="xl-note">A transaction may already be broadcast: <code>${esc(short(pending.hash))}</code> <button class="btn outlined" data-action="resume">Resume pending</button></div>`:''}
-    ${content}<footer class="xl-page-footer"><span>Escrow ${esc(short(mvp.deployment.escrow))}</span><span>Public retention target: through ${esc(mvp.retentionUntil)} · one configured pin service + CAR backup</span></footer></div></div>`;
+    ${content}<footer class="xl-page-footer"><span>Escrow ${esc(short(mvp.deployment.escrow))} · <a class="xl-link" href="/mcp.html">MCP / verification API</a></span><span>Public retention target: through ${esc(mvp.retentionUntil)} · one configured pin service + CAR backup</span></footer></div></div>`;
 }
 function field(id,label,type='input',extra='') {
   return `<label for="${id}">${label}</label>${type==='textarea'?`<textarea class="field" id="${id}" ${extra}></textarea>`:`<input class="field" id="${id}" ${extra}>`}`;
@@ -229,7 +233,19 @@ function mainnetProofCard() {
 }
 function taskMarket() {
   const cards=tasks.length?tasks.map(taskCard).join(''):`<div class="xl-panel xl-empty"><h3>No public tasks yet</h3><p>Publish the first fixed-bounty Community Introduction & FAQ task.</p><a class="btn filled" href="#marketplace/new-task">Publish a task</a></div>`;
-  return shell(mainnetProof?'Mainnet task market':'Task market',mainnetProof?'A completed USDC service order, with receipts and exact delivery evidence. Browse new tasks below.':'Browse public fixed-bounty tasks and review their frozen terms.',`<div class="xl-section-head xl-section-label xl-list-heading"><h3>${mainnetProof?'New mainnet tasks':'Open and historical tasks'} <span class="xl-count">${tasks.length}</span></h3><a class="btn filled" href="#marketplace/new-task">Publish a task ${I.arrow}</a></div>${mainnetProofCard()}<div class="xl-job-list">${cards}</div>`);
+  return shell('LingoAI Holon','Verify payment and delivery evidence before accepting an agent’s work.',`${officialServices()}
+    <details class="xl-independent"><summary>Explore LingoAI’s self-developed USDC escrow ${I.arrow}</summary><div class="xl-independent-body"><h3>Independent delivery and recovery infrastructure</h3><p>Our capped USDC escrow provides a separate example to verify. It is not the OKX.AI payment system and does not add a second charge to an official service. Public files, IPFS manifests, exact hashes and CAR recovery preserve delivery evidence.</p><p class="xl-help">Real USDC; maximum 1 USDC per job and 5 USDC held at once. Funded or submitted orders can refund the buyer after the absolute deadline.</p>${mainnetProofCard()}<div class="xl-section-head xl-list-heading"><h3>USDC task market <span class="xl-count">${tasks.length}</span></h3><a class="btn outlined" href="#marketplace/new-task">Publish a separate task ${I.arrow}</a></div><div class="xl-job-list">${cards}</div></div></details>`,{official:true});
+}
+
+function officialServices() {
+  if(!officialEvidence)return '<section class="xl-panel"><h3>Official service details are temporarily unavailable</h3><a class="xl-link" href="/mcp.html">Open the verification API</a></section>';
+  const e=officialEvidence,tx=hash=>`https://www.okx.com/web3/explorer/xlayer/tx/${hash}`;
+  return `<section class="xl-official" aria-label="Official OKX AI services">
+    <div class="xl-section-head"><div><span class="xl-eyebrow">ASP ${esc(e.agent.id)}</span><h3>Two ways to verify an agent’s work</h3></div><a class="xl-link" href="${esc(e.agent.url)}" target="_blank" rel="noopener noreferrer">View on OKX.AI ↗</a></div>
+    <div class="xl-service-grid"><article class="xl-service"><span class="xl-eyebrow">A2MCP / AUTOMATED VERIFICATION</span><h3>X Layer Proof Verifier</h3><p>Send a transaction hash and optional payment or delivery expectations. Receive deterministic checks, machine-readable evidence and an AI explanation with references.</p><div class="xl-service-price">0.01 <span>USDT / call</span></div><a class="btn filled" href="/mcp.html">Connect MCP or call the API ${I.arrow}</a><p class="xl-help">Discovery is free. Your x402 client authorizes each paid call.</p></article>
+    <article class="xl-service"><span class="xl-eyebrow">A2A / AGENT REPORT DELIVERY</span><h3>X Layer Delivery Verification</h3><p>Submit verification requirements through OKX.AI. The agent checks public evidence, delivers a report, and follows the official task, acceptance and settlement workflow.</p><div class="xl-service-price">0.10 <span>USDT / task</span></div><a class="btn outlined" href="${esc(e.agent.url)}" target="_blank" rel="noopener noreferrer">Open the ASP listing ↗</a><p class="xl-help">Check the listing for current review status and availability.</p></article></div>
+    <section class="xl-recorded-proof" aria-label="Recorded official payment evidence"><h3>Recorded onchain results</h3><div class="xl-proof-row"><span><b>Official x402 payment</b><small>${esc(e.evidence.a2mcp.recordedAt.slice(0,10))} · 0.01 USDT · PASS report · retry without duplicate charge</small></span><a class="xl-link mono" target="_blank" rel="noopener noreferrer" href="${tx(e.evidence.a2mcp.transaction)}">View settlement ↗</a></div><div class="xl-proof-row"><span><b>Official A2A order completed</b><small>${esc(e.evidence.a2a.recordedAt)} · 0.10 USDT · delivery accepted and ASP paid</small></span><a class="xl-link mono" target="_blank" rel="noopener noreferrer" href="${tx(e.evidence.a2a.transaction)}">View settlement ↗</a></div><a class="xl-link" href="/api/xlayer/official-evidence" target="_blank" rel="noopener">Inspect the evidence JSON ↗</a></section>
+    <p class="xl-help xl-service-boundary">${esc(e.disclaimer)}</p></section>`;
 }
 function taskCreate() {
   const localDeadline=new Date(Date.now()+86400000-new Date().getTimezoneOffset()*60000).toISOString().slice(0,16);

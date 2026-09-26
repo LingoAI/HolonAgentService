@@ -36,7 +36,7 @@ try {
   assert.equal(config.deployment.escrow.toLowerCase(), d.escrow.toLowerCase());
   assert.equal(buyer.address.toLowerCase(), d.client.toLowerCase());
   const file = path.join(ROOT, 'data/testnet-demo-progress.json');
-  const evidenceFile = path.join(ROOT, 'evidence/xlayer/xlayer-testnet.json');
+  const evidenceFile = path.join(ROOT, 'docs/evidence/xlayer-testnet.json');
   let journal = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file)) : null;
   if (journal) assert.equal(journal.deploymentId, d.deploymentId, 'Use a separate journal for a different deployment');
   if (process.argv.includes('--new-run')) {

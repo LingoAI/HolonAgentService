@@ -15,11 +15,11 @@ if(deployment.chainId!==196 || deployment.network!=='xlayer-mainnet' || deployme
    deployment.limits?.maxTotalEscrowRaw!=='5000000')
   throw new Error('The verified capped X Layer mainnet canary manifest is required');
 
-const inputs=['Dockerfile','.dockerignore','README.md',
+const inputs=['Dockerfile','.dockerignore',
   'package.json','package-lock.json','requirements.txt','requirements.lock','backend','frontend','config',
   'contracts/src','contracts/scripts/compile.mjs',`contracts/deployments/${manifestName}`,'protocol',
-  'scripts/start-services.mjs','scripts/mvp-backup.py','scripts/restore-mvp-ipfs.py','deploy',
-  'evidence/xlayer/mainnet-native-usdc-proof-2026-09-22.json'];
+  'scripts/start-services.mjs','scripts/mvp-backup.py','scripts/restore-mvp-ipfs.py','scripts/verify-mcp.mjs','deploy',
+  'docs/evidence/mainnet-native-usdc-proof-2026-09-22.json'];
 const files=[];
 function collect(relative) {
   if(relative.startsWith('frontend/js/views/market') || /^frontend\/js\/views\/_(market|hire|quote|jobState)\.js$/.test(relative))return;

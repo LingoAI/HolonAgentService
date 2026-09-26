@@ -1,0 +1,14 @@
+{
+  "agent": {"id":"13847","name":"LingoAI Holon","url":"https://www.okx.ai/agents/13847"},
+  "network": {"name":"X Layer Mainnet","chainId":196},
+  "services": [
+    {"type":"A2MCP","name":"X Layer Proof Verifier","serviceId":"403fe385-a178-4b10-a8f0-09190770cb60","fee":"0.01","currency":"USDT","endpoint":"/verify","mcpEndpoint":"/mcp"},
+    {"type":"A2A","name":"X Layer Delivery Verification","serviceId":"899f4f56-6041-48ea-8329-926c7ad0fac0","fee":"0.10","currency":"USDT"}
+  ],
+  "evidence": {
+    "a2mcp":{"recordedAt":"2026-09-26T13:43:42.387Z","amount":"0.01","currency":"USDT","transaction":"0x3214d6fd11bc706262da5f251817f141357ca4d8f7ebfeed7a1488a5b897dcb1","blockNumber":71661186,"result":"PASS","replayWithoutDuplicateCharge":true},
+    "a2a":{"recordedAt":"2026-09-25","amount":"0.10","currency":"USDT","transaction":"0xbe81386198992ec71ce814ddd57cb5d3db48b5782ecc9b623127e37be3057ccd","blockNumber":71533642,"jobId":"0x180d5246c0d83b4177cbcb9ccd760382bc677cc8f1c09031def2712ad8201598","result":"Completed"}
+  },
+  "listingNote":"Service registration is recorded. Check OKX.AI for current review status and marketplace availability.",
+  "disclaimer":"The verifier reads public evidence. It does not hold private keys or move funds. AI explanations are advisory and cannot change deterministic checks. Not investment advice or a security audit."
+}

@@ -12,7 +12,7 @@ import {
 } from 'ethers';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
-const evidence=resolve(root,'evidence/xlayer/okx-ai-selftest-funding-2026-09-25.json');
+const evidence=resolve(root,'docs/evidence/okx-ai-selftest-funding-2026-09-25.json');
 const execute=process.argv[2]==='--execute';
 if (process.argv.length>3 || (process.argv[2] && !execute))
   throw new Error('Usage: node --env-file=.env.mainnet-canary scripts/fund-okx-ai-selftest-buyer.mjs [--execute]');

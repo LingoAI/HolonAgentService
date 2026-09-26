@@ -12,7 +12,7 @@ from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 
 ROOT = Path(__file__).resolve().parents[2]
-PROOF = ROOT / "evidence/xlayer/mainnet-native-usdc-proof-2026-09-22.json"
+PROOF = ROOT / "docs/evidence/mainnet-native-usdc-proof-2026-09-22.json"
 MANIFEST = ROOT / "contracts/deployments/xlayer-mainnet-native-usdc-canary.json"
 RPC_URL = "https://rpc.xlayer.tech"
 EXPLORER = "https://www.okx.com/web3/explorer/xlayer"

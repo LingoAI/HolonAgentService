@@ -18,8 +18,13 @@ RUN npm install -g --no-audit --no-fund \
     && okx-a2a --version \
     && codex --version
 
-COPY ASP_AGENTS.md /opt/okx-a2a/AGENTS.md
-COPY entrypoint.sh /usr/local/bin/okx-a2a-entrypoint
+RUN npm install --prefix /opt/holon-verifier --save-exact --no-audit --no-fund \
+      ethers@6.17.0 multiformats@14.0.5 zod@4.6.5
+COPY protocol/verification.mjs /opt/holon-verifier/protocol/verification.mjs
+COPY config/verification.json /opt/holon-verifier/config/verification.json
+COPY deploy/a2a/verify-evidence.mjs /opt/holon-verifier/verify-evidence.mjs
+COPY deploy/a2a/ASP_AGENTS.md /opt/okx-a2a/AGENTS.md
+COPY deploy/a2a/entrypoint.sh /usr/local/bin/okx-a2a-entrypoint
 RUN chmod 0755 /usr/local/bin/okx-a2a-entrypoint
 
 ENV HOME=/data \

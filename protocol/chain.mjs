@@ -195,7 +195,7 @@ const CANARY_PROOF_STEPS = [
 // request timeout. This shortcut is valid only while that order is the sole job.
 export async function seedMainnetCanaryCache(p,d,escrow,blockNumber,first) {
   if (d.deploymentMode !== 'mainnet-canary' || d.chainId !== 196) return null;
-  const proofFile=path.join(ROOT,'evidence/xlayer/mainnet-native-usdc-proof-2026-09-22.json');
+  const proofFile=path.join(ROOT,'docs/evidence/mainnet-native-usdc-proof-2026-09-22.json');
   if (!fs.existsSync(proofFile)) return null;
   const proof=JSON.parse(fs.readFileSync(proofFile));
   if (proof.chainId !== d.chainId || proof.deploymentId !== d.deploymentId ||

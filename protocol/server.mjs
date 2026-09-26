@@ -5,12 +5,17 @@ import crypto from 'node:crypto';
 import {isAddress, isHexString, keccak256, verifyMessage, verifyTypedData} from 'ethers';
 import {ROOT, manifest, networkConfig, readState, localAction, executeJob, transactionData, registryOwner, transactionReceipt} from './chain.mjs';
 import {Payments, requirements, buyerCall} from './payments.mjs';
+import {handleMcp} from './mcp.mjs';
+import {verifyDelivery, verificationCapabilities, VerificationUnavailable, VerificationBusy} from './verification.mjs';
+import {VerificationPayments, paymentConfiguration} from './verification-payments.mjs';
+import {verifyAndExplain, analysisConfiguration} from './verification-analysis.mjs';
 
 const tokenFile=path.join(ROOT,'data/protocol-token');
 fs.mkdirSync(path.dirname(tokenFile),{recursive:true});
 try {fs.writeFileSync(tokenFile,crypto.randomBytes(32).toString('hex'),{flag:'wx',mode:0o600})} catch(e) {if(e.code!=='EEXIST')throw e}
 const token=fs.readFileSync(tokenFile,'utf8').trim();
 const payments=new Payments();
+const verificationPayments=new VerificationPayments();
 let queue=Promise.resolve();
 function serial(work) {const p=queue.then(work);queue=p.catch(()=>{});return p}
 function respond(res,status,body,headers={}) {res.writeHead(status,{'Content-Type':'application/json','Cache-Control':'no-store',...headers});res.end(JSON.stringify(body))}
@@ -61,6 +66,15 @@ const server=http.createServer(async(req,res)=>{
     const want=Buffer.from(token);
     if(got.length!==want.length || !crypto.timingSafeEqual(got,want))return respond(res,401,{error:'Unauthorized protocol request'});
     const input=req.method==='POST' ? await body(req) : {};
+    if(req.url==='/mcp')return await handleMcp(req,res,input,undefined,verificationPayments);
+    if(req.url==='/verification-info' && req.method==='GET')return respond(res,200,{...verificationCapabilities(),payment:paymentConfiguration(),analysis:analysisConfiguration()});
+    if(req.url==='/verify-delivery' && req.method==='POST') {
+      const r=await verificationPayments.call(input,req.headers['payment-signature'],req.headers['x-verification-path'] || '/verify');
+      return respond(res,r.status,r.body,r.headers);
+    }
+    // Only reachable on loopback with the private protocol token. A2A may reuse
+    // the deterministic engine without a second payment on an already funded task.
+    if(req.url==='/verify-internal' && req.method==='POST')return respond(res,200,await verifyAndExplain(input));
     if(req.url==='/state' && req.method==='GET') {
       const s=await readState();
       // The facilitator key is optional for browsing / escrow; report availability separately.
@@ -118,7 +132,10 @@ const server=http.createServer(async(req,res)=>{
       return respond(res,r.httpStatus,r.body);
     }
     respond(res,404,{error:'Unknown protocol endpoint'});
-  } catch(e) {respond(res,400,{ok:false,error:String(e.shortMessage || e.message).slice(0,250)})}
+  } catch(e) {
+    const status=e instanceof VerificationUnavailable ? 503 : e instanceof VerificationBusy ? 429 : 400;
+    if(!res.headersSent)respond(res,status,{ok:false,error:e.name==='ZodError' ? e.issues.map(i=>`${i.path.join('.')}: ${i.message}`).join(';').slice(0,500) : String(e.shortMessage || e.message).slice(0,250)});
+  }
 });
 server.requestTimeout=130000;
 server.listen(Number(process.env.PROTOCOL_PORT || 9402),'127.0.0.1',()=>console.log(`Protocol service ready (${networkConfig().name})`));

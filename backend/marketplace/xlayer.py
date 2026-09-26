@@ -45,15 +45,24 @@ async def proxy(path, request=None, method="GET"):
         base, headers = _connection()
         content = None
         if request:
-            content = await request.body()
-            if len(content) > 32768:
-                return JSONResponse({"error": "Request exceeds 32 KiB"}, status_code=413)
+            if path == "/verify-delivery":
+                headers["X-Verification-Path"] = request.url.path
+            parts, size = [], 0
+            async for part in request.stream():
+                size += len(part)
+                if size > 32768:
+                    return JSONResponse({"error": "Request exceeds 32 KiB"}, status_code=413)
+                parts.append(part)
+            content = b"".join(parts)
             headers["Content-Type"] = "application/json"
             if request.headers.get("payment-signature"):
                 headers["PAYMENT-SIGNATURE"] = request.headers["payment-signature"]
+            for name in ("accept", "mcp-protocol-version", "mcp-session-id"):
+                if request.headers.get(name):
+                    headers[name] = request.headers[name]
         async with httpx.AsyncClient(timeout=httpx.Timeout(125, connect=3), trust_env=False) as client:
             r = await client.request(method, base + path, content=content, headers=headers)
-        forwarded = {k: v for k, v in r.headers.items() if k.lower() in ("payment-required", "payment-response")}
+        forwarded = {k: v for k, v in r.headers.items() if k.lower() in ("payment-required", "payment-response", "mcp-session-id", "allow")}
         return Response(r.content, status_code=r.status_code, media_type="application/json", headers=forwarded)
     except (httpx.HTTPError, OSError, ValueError) as exc:
         return JSONResponse({"ok": False, "error": str(exc)[:200], "available": False}, status_code=503)
@@ -110,10 +119,15 @@ class XLayerBoundary(BaseHTTPMiddleware):
         legacy = ("/api/market/", "/api/metalife/", "/api/agents/", "/agents/", "/a2a", "/.well-known/agent-card.json")
         if path.startswith(legacy):
             return JSONResponse({"error": "Use the X Layer marketplace actions for this deployment"}, status_code=409)
-        if request.method in ("POST", "PUT", "PATCH", "DELETE") and not (path.startswith(("/api/xlayer/", "/api/auth/")) or path == "/api/agent/research"):
+        if request.method in ("POST", "PUT", "PATCH", "DELETE") and not (path.startswith(("/api/xlayer/", "/api/auth/")) or path in ("/api/agent/research", "/mcp", "/verify")):
             return JSONResponse({"error": "Legacy mutations are disabled in the X Layer marketplace"}, status_code=409)
-        if request.method == "POST" and (path.startswith("/api/xlayer/") or path == "/api/agent/research"):
+        if request.method == "POST" and (path.startswith("/api/xlayer/") or path in ("/api/agent/research", "/mcp", "/verify")):
             origin = request.headers.get("origin")
+            if path == "/mcp" and origin:
+                expected = (os.getenv("MVP_PUBLIC_ORIGIN") or os.getenv("HOLON_PUBLIC_URL") or
+                            f"{request.url.scheme}://{request.url.netloc}").rstrip("/")
+                if origin.rstrip("/") != expected:
+                    return JSONResponse({"error": "Untrusted MCP origin"}, status_code=403)
             if origin and urlsplit(origin).netloc != request.url.netloc:
                 return JSONResponse({"error": "Cross-origin mutation refused"}, status_code=403)
             if not request.headers.get("content-type", "").lower().startswith("application/json"):
@@ -164,6 +178,28 @@ async def buyer_route(request: Request):
 @router.post("/api/agent/research")
 async def paid_service(request: Request):
     return await proxy("/service", request, "POST")
+
+
+@router.get("/api/xlayer/verification")
+async def verification_info():
+    return await proxy("/verification-info")
+
+
+@router.get("/api/xlayer/official-evidence")
+def official_evidence():
+    """Recorded public proofs; never claims to be a live listing-status query."""
+    return json.loads((ROOT / "config/official-services.json").read_text())
+
+
+@router.post("/api/xlayer/verify-delivery")
+@router.post("/verify")
+async def verify_delivery(request: Request):
+    return await proxy("/verify-delivery", request, "POST")
+
+
+@router.api_route("/mcp", methods=["POST", "GET", "DELETE"])
+async def mcp_endpoint(request: Request):
+    return await proxy("/mcp", request, request.method)
 
 
 @router.get("/api/xlayer/jobs/{job_id}/result")

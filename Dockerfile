@@ -15,12 +15,13 @@ COPY requirements.lock .
 RUN pip install --no-cache-dir -r requirements.lock
 COPY backend backend
 COPY frontend frontend
-COPY evidence/xlayer/mainnet-native-usdc-proof-2026-09-22.json evidence/xlayer/mainnet-native-usdc-proof-2026-09-22.json
+COPY docs/evidence/mainnet-native-usdc-proof-2026-09-22.json docs/evidence/mainnet-native-usdc-proof-2026-09-22.json
 COPY config config
 COPY protocol protocol
 COPY scripts/start-services.mjs scripts/start-services.mjs
 COPY scripts/mvp-backup.py scripts/mvp-backup.py
 COPY scripts/restore-mvp-ipfs.py scripts/restore-mvp-ipfs.py
+COPY scripts/verify-mcp.mjs scripts/verify-mcp.mjs
 COPY --from=protocol-build /app/node_modules node_modules
 COPY --from=protocol-build /app/contracts contracts
 COPY --from=protocol-build /app/frontend/vendor/x402-wallet.js frontend/vendor/x402-wallet.js

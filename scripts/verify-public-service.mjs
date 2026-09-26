@@ -5,7 +5,7 @@ import {keccak256, toUtf8Bytes} from 'ethers';
 import {ROOT, networkConfig, provider, checkedDeployment, chainContract, atomicJSON} from '../protocol/chain.mjs';
 
 assert.equal(networkConfig().chainId, 1952);
-const evidence = JSON.parse(fs.readFileSync(path.join(ROOT, 'evidence/xlayer/xlayer-testnet.json')));
+const evidence = JSON.parse(fs.readFileSync(path.join(ROOT, 'docs/evidence/xlayer-testnet.json')));
 const base = process.env.HOLON_PUBLIC_URL || evidence.serviceURL;
 assert.equal(base, evidence.serviceURL, 'Use the service URL of the completed acceptance run');
 const checks = [];
@@ -65,6 +65,6 @@ try {
   const report={verifiedAt:new Date().toISOString(),url:base,revision:health.revision,mode:'active-testnet',chainId:1952,checks,endpoints,
     jobs:state.jobs.map(j=>({id:j.id,status:j.status})),settledPayments:state.payments.filter(p=>p.status==='settled').length,
     resultChecks,x402Available:state.x402Available,localSigningDisabled:true,sensitivePathsNotExposed:true,replay};
-  atomicJSON(path.join(ROOT,'evidence/xlayer/public-service-verification.json'),report);
+  atomicJSON(path.join(ROOT,'docs/evidence/public-service-verification.json'),report);
   console.log(JSON.stringify(report,null,2));
 } finally {p.destroy()}

@@ -12,6 +12,7 @@ services:
       - PORT=8765
       - APP_HOST=0.0.0.0
       - PROTOCOL_PORT=9402
+      - XLAYER_MAINNET_RPC_URL=${XLAYER_MAINNET_RPC_URL:-https://rpc.xlayer.tech}
       - HIRE_NETWORK=${HIRE_NETWORK:-xlayer-testnet}
       - MVP_DEPLOYMENT_MANIFEST=${MVP_DEPLOYMENT_MANIFEST:-xlayer-testnet-mvp.json}
       - MVP_PUBLIC_ORIGIN=${MVP_PUBLIC_ORIGIN:?Set MVP_PUBLIC_ORIGIN in deploy/.env}
@@ -23,6 +24,9 @@ services:
       - HOLON_INDEX_ON_BOOT=0
       # /health reports this; deploy with HOLON_TAG=$(git rev-parse --short HEAD)
       - HOLON_REVISION=${HOLON_TAG:-local}
+      - VERIFICATION_AI_URL=http://analysis:9471/analyze
+      - VERIFICATION_AI_REQUIRED=1
+      - VERIFICATION_AI_TOKEN=${VERIFICATION_AI_TOKEN:?Set a private analysis token}
     logging:
       driver: json-file
       options:
@@ -43,6 +47,35 @@ services:
     depends_on:
       ipfs:
         condition: service_healthy
+      analysis:
+        condition: service_healthy
+  analysis:
+    image: holon-analysis:${HOLON_TAG:-local}
+    build:
+      context: ..
+      dockerfile: deploy/analysis/Dockerfile
+    restart: unless-stopped
+    user: "1000:1000"
+    read_only: true
+    environment:
+      VERIFICATION_AI_TOKEN: ${VERIFICATION_AI_TOKEN:?Set a private analysis token}
+    volumes:
+      - ${VERIFICATION_CODEX_AUTH_DIR:?Set the existing Codex login directory}:/run/codex-auth:ro
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m,uid=1000,gid=1000
+      - /data:rw,noexec,nosuid,size=128m,uid=1000,gid=1000
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:9471/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
   ipfs:
     image: ipfs/kubo:v0.43.1
     restart: unless-stopped

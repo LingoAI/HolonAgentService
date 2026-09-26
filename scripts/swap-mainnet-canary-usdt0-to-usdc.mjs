@@ -118,7 +118,7 @@ async function main() {
       return;
     }
     if (before.usdt0 < PROFILE.amountIn) throw new Error('Buyer has insufficient USDT0 for the frozen swap amount');
-    const evidence = path.join(ROOT, 'evidence/xlayer/mainnet-usdt0-to-native-usdc-2026-09-22.json');
+    const evidence = path.join(ROOT, 'docs/evidence/mainnet-usdt0-to-native-usdc-2026-09-22.json');
     if (await import('node:fs').then(({default: fs}) => fs.existsSync(evidence)))
       throw new Error('Swap evidence already exists; refusing a duplicate execution');
     if (before.buyerOKB < PROFILE.buyerGasTarget) {

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>X Layer Verification MCP · HolonAgentService</title>
+  <meta name="description" content="MCP and HTTP tools for X Layer transaction, ERC-20 payment and IPFS delivery verification.">
+  <link rel="stylesheet" href="/mcp.css">
+  <script type="module" src="/js/mcp.js"></script>
+</head>
+<body>
+  <main>
+    <nav><a href="/#marketplace">← HolonAgentService</a><a href="/api/xlayer/verification">Capabilities & schema</a></nav>
+    <p id="payment-availability" role="status">Checking payment availability…</p>
+    <header><p class="eyebrow">X LAYER / AGENT TOOLS</p><h1>Verify the evidence.<br>Call it from your agent.</h1>
+      <p class="intro">Inspect a transaction, match an exact token transfer, and check public delivery bytes. Receive code-verified facts and an AI explanation grounded in those facts. 0.01 USDT per call through official OKX x402 payment.</p>
+      <div class="tags"><span>Chain 196</span><span>Official OKX x402</span><span>0.01 USDT per call</span></div>
+    </header>
+    <section><h2>Connect through MCP</h2><p>Add this URL as a remote Streamable HTTP MCP server:</p>
+      <pre><code data-endpoint="/mcp">https://holonagentservice.lingoai.io/mcp</code></pre>
+      <p>Tool: <code>verify_xlayer_delivery</code>. Your MCP client discovers the parameters and handles initialization. The server is stateless. Discovery is free. Tool calls require an x402-capable client to handle PAYMENT-REQUIRED and PAYMENT-SIGNATURE; ordinary MCP clients can discover the tool but cannot pay automatically.</p>
+    </section>
+    <section><h2>Call the HTTP API</h2><p>The same verification is available to OKX.AI A2MCP buyers and other HTTP clients:</p>
+      <pre><code id="curl-example">curl -X POST https://holonagentservice.lingoai.io/verify \
+  -H 'Content-Type: application/json' \
+  -d '{"transactionHash":"0x1761a092116069e3e0e8e9352f3eba439b249e9b5e14898f4c196abeb0cd6b93"}'</code></pre>
+      <table><thead><tr><th>Parameter</th><th>Checks</th></tr></thead><tbody>
+        <tr><td><code>transactionHash</code> · required</td><td>Receipt, execution status, block inclusion and observed confirmations on X Layer mainnet.</td></tr>
+        <tr><td><code>expectedPayment</code></td><td>Exact ERC-20 event: token, sender, recipient and amountRaw. Supply all four; the amount is in base units.</td></tr>
+        <tr><td><code>allowance</code></td><td>Explicit token, owner and spender. Returns allowance at the end of the transaction block and current snapshot block; unavailable values remain unknown.</td></tr>
+        <tr><td><code>contractAddress</code></td><td>Expected transaction recipient. Third-party business state is not inferred from generic logs.</td></tr>
+        <tr><td><code>jobId</code></td><td>Event binding and current job state in the Holon mainnet canary escrow.</td></tr>
+        <tr><td><code>manifestCid</code></td><td>Holon manifest and referenced document bytes, SHA-256, size and CID integrity. Supports CIDv1 raw SHA-256 blocks, up to 8 KiB for the manifest and 16 KiB for the document.</td></tr>
+        <tr><td><code>expectedDigest</code></td><td>Expected Keccak-256 of manifest bytes; requires manifestCid. With jobId, the onchain deliverable digest is also checked.</td></tr>
+      </tbody></table>
+    </section>
+    <section><h2>Preview the payment challenge</h2><p>The example is the project's published 0.10 USDC settlement. This preview requests the payment challenge. It does not sign or pay. Use an x402-capable agent to authorize a paid call.</p>
+      <form id="verify-form"><label for="transaction-hash">X Layer transaction hash</label>
+        <input id="transaction-hash" name="transactionHash" required pattern="0x[0-9a-fA-F]{64}" value="0x1761a092116069e3e0e8e9352f3eba439b249e9b5e14898f4c196abeb0cd6b93" autocomplete="off" spellcheck="false">
+        <button type="submit">Preview challenge</button><p id="verify-status" role="status" aria-live="polite"></p></form>
+      <pre id="verify-result" hidden></pre>
+    </section>
+    <section><h2>Read the result</h2><p>Inspect <code>status</code> (PASS, WARNING or FAIL), <code>warnings</code>, <code>verificationStatus</code>, <code>verified</code>, and each entry in <code>checks</code>. A completed HTTP request can return <code>mismatch</code> or <code>not_found</code>; neither is successful verification. Upstream outages return an error.</p><p><code>interpretation</code> contains the AI summary, findings with evidence references, suggested next checks and limitations. <code>deterministicInterpretation</code> preserves the code-generated conclusion. AI text is advisory: it never changes the verdict, transaction facts or checks. Only structured public evidence is sent to the model; delivery document text and payment credentials are excluded. If the required AI explanation is unavailable, no new payment is settled.</p>
+      <p>Confirmations are observations, not a finality guarantee. Token logs do not establish an arbitrary token's economic value. File integrity checks establish byte consistency, not authorship or content quality. Without a job ID or trusted expected digest, IPFS integrity is checked independently of the transaction.</p>
+      <p>For the complete input schema and supported escrow address, open <a href="/api/xlayer/verification">capabilities</a>. Existing A2A report delivery is available through ASP #13847. No private-key custody or fund operations in the verifier. Not investment advice or a security audit.</p>
+    </section>
+    <footer>HolonAgentService by LingoAI · Official x402 verification API v1</footer>
+  </main>
+</body>
+</html>

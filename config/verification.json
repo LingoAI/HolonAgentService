@@ -1,0 +1,20 @@
+{
+  "agentId": "13847",
+  "serviceName": "X Layer Proof Verifier",
+  "serviceType": "A2MCP",
+  "fee": "0.01",
+  "currency": "USDT",
+  "payment": {
+    "asset": "0x779ded0c9e1022225f8e0630b35a9b54be713736",
+    "amountRaw": "10000",
+    "payTo": "0x3f46cdd4de647b7b5c29e17d8ddb86174bde6702"
+  },
+  "origin": "https://holonagentservice.lingoai.io",
+  "mcpPath": "/mcp",
+  "apiPath": "/verify",
+  "tool": "verify_xlayer_delivery",
+  "chainId": 196,
+  "escrow": "0xCDF4fF99a28b231A0446A8be1c36B4A5E3D50215",
+  "escrowToken": "0xB6CEceAB302E2E4948951eE7843FC24E92933061",
+  "exampleTransactionHash": "0x1761a092116069e3e0e8e9352f3eba439b249e9b5e14898f4c196abeb0cd6b93"
+}

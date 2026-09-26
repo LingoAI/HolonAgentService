@@ -27,8 +27,8 @@ const PROFILE = Object.freeze({
   sshHost: 'lingoai-x-x-layer',
   remoteRoot: '/home/ecs-user/okx-agent-marketplace',
 });
-const PROGRESS = path.join(ROOT, 'evidence/xlayer/mainnet-native-usdc-proof.progress.json');
-const EVIDENCE = path.join(ROOT, 'evidence/xlayer/mainnet-native-usdc-proof-2026-09-22.json');
+const PROGRESS = path.join(ROOT, 'docs/evidence/mainnet-native-usdc-proof.progress.json');
+const EVIDENCE = path.join(ROOT, 'docs/evidence/mainnet-native-usdc-proof-2026-09-22.json');
 const DATA = path.join(ROOT, 'data/mainnet-native-usdc-proof');
 const ERC20 = [
   'function balanceOf(address) view returns (uint256)',

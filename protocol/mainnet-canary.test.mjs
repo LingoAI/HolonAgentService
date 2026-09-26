@@ -38,7 +38,7 @@ test('mainnet canary preflight fails closed before touching RPC when the explici
 test('mainnet result seeds a verified event cursor without scanning 100,000 historical blocks', async()=>{
   const root=path.resolve(import.meta.dirname,'..');
   const d=JSON.parse(fs.readFileSync(path.join(root,'contracts/deployments/xlayer-mainnet-native-usdc-canary.json')));
-  const proof=JSON.parse(fs.readFileSync(path.join(root,'evidence/xlayer/mainnet-native-usdc-proof-2026-09-22.json')));
+  const proof=JSON.parse(fs.readFileSync(path.join(root,'docs/evidence/mainnet-native-usdc-proof-2026-09-22.json')));
   assert.equal(escrowArtifact(d),'MainnetCanaryEscrow');
   const tx=transactionData('fund',{jobId:proof.jobId,budgetRaw:proof.amountRaw},d);
   const canaryInterface=new Interface(artifact('MainnetCanaryEscrow').abi);
