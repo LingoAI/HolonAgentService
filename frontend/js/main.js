@@ -71,7 +71,7 @@ function applyMode() {
   document.documentElement.dataset.application = 'xlayer';
   if (xlayerMode) {
     const brand = document.querySelector('.brand .txt');
-    if (brand) brand.innerHTML = 'LingoAI <b>Holon</b><span class="sub">verifiable agent services</span>';
+    if (brand) brand.innerHTML = 'LingoAI <b>Holon</b><span class="sub">evidence services</span>';
     const mark = document.querySelector('.brand .mark');
     if (mark) mark.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m5 7 7-4 7 4v10l-7 4-7-4zM5 7l7 4 7-4M12 11v10"/></svg>';
     document.getElementById('themeBtn').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4v16"/><path d="M12 4a8 8 0 0 1 0 16" fill="currentColor"/></svg>';
