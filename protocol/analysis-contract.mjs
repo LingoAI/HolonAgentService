@@ -6,6 +6,13 @@ export const analysisSchema = {
       explanation:{type:'string'},nextStep:{type:'string'}}}},limitations:{type:'array',items:{type:'string'}}},
 };
 
+export function analysisSchemaForEvidence(evidence) {
+  const schema=structuredClone(analysisSchema);
+  schema.properties.findings.items.properties.references.items.enum=
+    [...new Set([...evidence.checks.map(check=>check.name),'scope','warnings','limitations','assetFlow'])];
+  return schema;
+}
+
 export function evidenceForAnalysis(report) {
   return {status:report.status, transactionHash:report.transactionHash, network:report.network,
     snapshotBlock:report.snapshotBlock, checkedAt:report.checkedAt, onchainFacts:{...report.onchainFacts,
@@ -41,5 +48,7 @@ The supplied PASS/WARNING/FAIL verdict and checks are authoritative. Never chang
 Explain observed mismatches, remaining uncertainty, and practical next checks. A mismatch establishes a difference from user expectations, not a proven root cause or fraud.
 Distinguish facts from user claims. Identify token transfers by their supplied addresses; do not invent symbols, decimals or amounts. Missing checks remain unverified.
 Produce concise English JSON matching the output schema. Every finding needs references to supplied check names or scope, warnings, limitations, assetFlow. Include material limits. Do not include HTML or Markdown links. This is advisory interpretation, not a security audit or financial advice.
+Allowed reference strings (copy verbatim, without prefixes or paths): ${JSON.stringify(analysisSchemaForEvidence(evidence).properties.findings.items.properties.references.items.enum)}.
+Every failed check must be cited in at least one finding: ${JSON.stringify(evidence.checks.filter(check=>!check.passed).map(check=>check.name))}.
 EVIDENCE_JSON\n${JSON.stringify(evidence)}`;
 }

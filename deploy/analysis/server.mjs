@@ -4,15 +4,13 @@ import os from 'node:os';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import {spawn} from 'node:child_process';
-import {analysisSchema,analysisPrompt,validateAnalysis} from './analysis-contract.mjs';
+import {analysisSchemaForEvidence,analysisPrompt,validateAnalysis} from './analysis-contract.mjs';
 
 const authSource='/run/codex-auth/auth.json';
 const runtimeDirectory=process.env.CODEX_HOME;
 const secret=process.env.VERIFICATION_AI_TOKEN;
 if (!runtimeDirectory || !secret || secret.length<32) throw new Error('Private analysis configuration required');
 fs.mkdirSync(runtimeDirectory,{recursive:true,mode:0o700});
-const schemaFile='/tmp/holon-analysis-schema.json';
-fs.writeFileSync(schemaFile,JSON.stringify(analysisSchema),{mode:0o600});
 let active=false;
 const respond=(res,status,body)=>{res.writeHead(status,{'Content-Type':'application/json','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
 const disabled=['shell_tool','apps','plugins','browser_use','browser_use_external','computer_use','multi_agent',
@@ -24,6 +22,8 @@ async function infer(evidence) {
   fs.chmodSync(path.join(runtimeDirectory,'auth.json'),0o600);
   const directory=fs.mkdtempSync(path.join(os.tmpdir(),'holon-analysis-'));
   const output=path.join(directory,'result.json');
+  const schemaFile=path.join(directory,'schema.json');
+  fs.writeFileSync(schemaFile,JSON.stringify(analysisSchemaForEvidence(evidence)),{mode:0o600});
   const args=['exec','--ignore-user-config','--ephemeral','--skip-git-repo-check','--sandbox','read-only',
     '-C',directory,'--output-schema',schemaFile,'--output-last-message',output,'--json',
     '-c','web_search="disabled"','-c','project_doc_max_bytes=0','-c','model_reasoning_effort="low"',
